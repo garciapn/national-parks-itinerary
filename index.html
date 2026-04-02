@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Great Escape · Paolo & Brooke · National Parks 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --border: #222222;
+      --accent: #ff6b35;
+      --green: #4ade80;
+      --text: #ffffff;
+      --muted: #888888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    @media (max-width: 768px) {
+      .wrap { padding: 0 24px; }
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    nav .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 768px) { nav .inner { padding: 0 24px; } }
+
+    .nav-logo {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      padding: 96px 0 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255,107,53,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,107,53,0.1);
+      border: 1px solid rgba(255,107,53,0.2);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .hero-eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #ff6b35 0%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 56px;
+    }
+
+    /* COUNTDOWN */
+    .countdown-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 0 28px;
+    }
+
+    .countdown-unit:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+
+    .countdown-number {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .countdown-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .countdown-trip-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    .countdown-trip-label strong { color: var(--accent); font-weight: 600; }
+
+    /* TIMELINE PILLS */
+    .timeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      row-gap: 12px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .timeline-item:hover {
+      transform: translateY(-1px);
+      border-color: var(--tc, var(--border));
+    }
+
+    .timeline-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .timeline-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .timeline-date {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .timeline-connector {
+      width: 24px;
+      height: 1px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .timeline { gap: 8px; }
+      .timeline-connector { display: none; }
+    }
+
+    /* STATS */
+    .stats {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 64px;
+    }
+
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (max-width: 640px) {
+      .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 16px 0; }
+    }
+
+    .stat-box {
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .stat-box:not(:last-child) { border-right: 1px solid var(--border); }
+
+    @media (max-width: 640px) {
+      .stat-box:nth-child(2) { border-right: none; }
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      margin-bottom: 32px;
+    }
+
+    .section-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* TRIPS GRID */
+    .trips-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+
+    @media (max-width: 860px) {
+      .trips-grid { grid-template-columns: 1fr; }
+    }
+
+    /* TRIP CARD */
+    .trip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .trip-card-top-bar {
+      height: 3px;
+    }
+
+    .trip-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .card-park {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-emoji { font-size: 28px; line-height: 1; }
+
+    .card-park-name {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .days-badge {
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #1c1c1c;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ITINERARY */
+    .itinerary-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      border-top: 1px solid var(--border);
+      padding: 14px 0 0;
+      cursor: pointer;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+
+    .itinerary-toggle:hover { color: var(--text); }
+
+    .toggle-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: #1c1c1c;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .itinerary-toggle.open .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .itinerary-body {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .itinerary-body.open { display: block; }
+
+    .day-row {
+      display: flex;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .day-row:last-of-type { border-bottom: none; }
+
+    .day-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      padding-top: 1px;
+      min-width: 36px;
+    }
+
+    .day-content {
+      font-size: 13px;
+      color: #aaaaaa;
+      line-height: 1.55;
+    }
+
+    .day-content strong { color: var(--text); font-weight: 600; }
+
+    /* WEATHER TIP */
+    .weather-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 11px 14px;
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+    }
+
+    .weather-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+    .weather-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* CARD CHECKLIST */
+    .card-checklist {
+      margin-top: 14px;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 14px;
+    }
+
+    .checklist-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 5px 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .check-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border: 1.5px solid #333;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .check-item input[type="checkbox"]:checked {
+      background: var(--tc, #ff6b35);
+      border-color: var(--tc, #ff6b35);
+    }
+
+    .check-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230d0d0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 10px 10px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .check-text { font-size: 13px; color: #aaa; transition: color 0.15s; }
+    .check-item input[type="checkbox"]:checked ~ .check-text { color: #555; text-decoration: line-through; }
+
+    .urgent-dot { width: 6px; height: 6px; border-radius: 50%; background: #ef4444; flex-shrink: 0; }
+
+    /* PASS CALLOUT */
+    .pass-callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+
+    .pass-icon { font-size: 28px; flex-shrink: 0; }
+
+    .pass-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+    .pass-text strong {
+      color: var(--text);
+      font-weight: 600;
+      font-size: 15px;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .savings-badge {
+      margin-left: auto;
+      flex-shrink: 0;
+      padding: 6px 14px;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    @media (max-width: 640px) { .savings-badge { display: none; } }
+
+    /* BOOKING SECTION */
+    .booking-section { margin-bottom: 80px; }
+
+    .booking-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    @media (max-width: 640px) { .booking-card { padding: 20px; } }
+
+    /* PROGRESS */
+    .progress-wrap { margin-bottom: 28px; }
+
+    .progress-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .progress-label { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .progress-count { font-size: 13px; font-weight: 700; color: var(--text); }
+
+    .progress-track {
+      height: 4px;
+      background: #1c1c1c;
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      border-radius: 100px;
+      transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* BOOKING COLS */
+    .booking-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    @media (max-width: 640px) {
+      .booking-cols { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    .booking-col-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .col-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .col-dot.urgent { background: #ef4444; }
+    .col-dot.soon { background: #eab308; }
+
+    .booking-check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid #191919;
+    }
+
+    .booking-check-item:last-of-type { border-bottom: none; }
+
+    .booking-check-item input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid #333;
+      border-radius: 5px;
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      transition: background 0.15s, border-color 0.15s;
+      margin-top: 1px;
+    }
+
+    .booking-check-item input[type="checkbox"]:checked {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .booking-check-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230d0d0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 10px 10px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .booking-item-info { flex: 1; min-width: 0; }
+
+    .booking-item-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      transition: color 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .booking-check-item input[type="checkbox"]:checked ~ .booking-item-info .booking-item-name {
+      color: #444;
+      text-decoration: line-through;
+    }
+
+    .booking-item-sub { font-size: 12px; color: #555; }
+
+    .booking-note {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: rgba(234,179,8,0.06);
+      border: 1px solid rgba(234,179,8,0.15);
+      border-radius: 8px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .booking-note strong { color: #eab308; font-weight: 600; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    footer p { font-size: 13px; color: #444; }
+    footer p span { color: var(--accent); }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #333; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="inner">
+      <div class="nav-logo">Great<span>Escape</span> <span style="color:#333;font-weight:400">·</span> 2026</div>
+      <ul class="nav-links">
+        <li><a href="#trips">Trips</a></li>
+        <li><a href="#booking">Booking</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-eyebrow">
+        <div class="dot"></div>
+        National Parks Road Trip
+      </div>
+      <h1>The <span class="gradient">Great Escape</span></h1>
+      <p class="hero-sub">Paolo &amp; Brooke &nbsp;·&nbsp; National Parks 2026</p>
+
+      <div class="countdown-wrapper">
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-days">--</div>
+          <div class="countdown-label">Days</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-hours">--</div>
+          <div class="countdown-label">Hours</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-mins">--</div>
+          <div class="countdown-label">Mins</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="countdown-number" id="cd-secs">--</div>
+          <div class="countdown-label">Secs</div>
+        </div>
+      </div>
+      <div class="countdown-trip-label">Until <strong>🌵 Zion &amp; Bryce Canyon</strong> — April 10, 2026</div>
+
+      <div class="timeline">
+        <div class="timeline-item" style="--tc:#ff6b35">
+          <div class="timeline-dot" style="background:#ff6b35"></div>
+          <div>
+            <div class="timeline-name">Zion + Bryce</div>
+            <div class="timeline-date">Apr 10–12</div>
+          </div>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-item" style="--tc:#4ade80">
+          <div class="timeline-dot" style="background:#4ade80"></div>
+          <div>
+            <div class="timeline-name">Yosemite</div>
+            <div class="timeline-date">May 8–10</div>
+          </div>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-item" style="--tc:#fbbf24">
+          <div class="timeline-dot" style="background:#fbbf24"></div>
+          <div>
+            <div class="timeline-name">Grand Canyon</div>
+            <div class="timeline-date">May 29–31</div>
+          </div>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-item" style="--tc:#60a5fa">
+          <div class="timeline-dot" style="background:#60a5fa"></div>
+          <div>
+            <div class="timeline-name">Yellowstone + Teton</div>
+            <div class="timeline-date">Jul 10–14</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="wrap">
+    <div class="stats">
+      <div class="stats-inner">
+        <div class="stat-box">
+          <div class="stat-value">4</div>
+          <div class="stat-label">Parks</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">4</div>
+          <div class="stat-label">States</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">13</div>
+          <div class="stat-label">Days</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">2</div>
+          <div class="stat-label">People</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRIPS -->
+  <div class="wrap" id="trips">
+    <div class="section-header">
+      <h2>Trip Itineraries</h2>
+      <p>Click any card to expand the day-by-day plan</p>
+    </div>
+
+    <div class="trips-grid">
+
+      <!-- ZION -->
+      <div class="trip-card">
+        <div class="trip-card-top-bar" style="background:#ff6b35"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-park">
+              <span class="card-emoji">🌵</span>
+              <div class="card-park-name">Zion + Bryce Canyon</div>
+            </div>
+            <div class="days-badge" id="badge-zion" style="background:rgba(255,107,53,0.12);color:#ff6b35;border:1px solid rgba(255,107,53,0.25)">— days</div>
+          </div>
+          <div class="card-meta">
+            <span class="pill">📅 Apr 10–12, 2026</span>
+            <span class="pill">🚗 Drive 4.5hrs from SD</span>
+            <span class="pill">Utah</span>
+          </div>
+
+          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+            Day-by-day plan
+            <span class="toggle-icon">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="itinerary-body">
+            <div class="day-row">
+              <div class="day-label" style="color:#ff6b35">Fri</div>
+              <div class="day-content">Leave SD <strong>2pm</strong> → Springdale <strong>6:30pm</strong> → Dinner at <strong>Bit &amp; Spur</strong> → Cable Mountain Lodge</div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#ff6b35">Sat</div>
+              <div class="day-content"><strong>7am</strong> Angels Landing or The Narrows → Emerald Pools → <strong>Canyon Junction</strong> sunset</div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#ff6b35">Sun</div>
+              <div class="day-content">Bryce Canyon (1hr) → <strong>Navajo Loop + Queens Garden</strong> → Sunset Point → drive home</div>
+            </div>
+            <div class="weather-tip">
+              <span class="weather-icon">🌤️</span>
+              <span class="weather-text">65–75°F, perfect hiking weather. Layers for morning.</span>
+            </div>
+            <div class="card-checklist">
+              <div class="checklist-label">Bookings</div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="zion-angels" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Angels Landing permit (recreation.gov)</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="zion-hotel" />
+                <span class="check-text">Cable Mountain Lodge</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YOSEMITE -->
+      <div class="trip-card">
+        <div class="trip-card-top-bar" style="background:#4ade80"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-park">
+              <span class="card-emoji">🏔️</span>
+              <div class="card-park-name">Yosemite</div>
+            </div>
+            <div class="days-badge" id="badge-yosemite" style="background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.25)">— days</div>
+          </div>
+          <div class="card-meta">
+            <span class="pill">📅 May 8–10, 2026</span>
+            <span class="pill">🚗 Drive 6.5hrs from SD</span>
+            <span class="pill">California</span>
+          </div>
+
+          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+            Day-by-day plan
+            <span class="toggle-icon">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="itinerary-body">
+            <div class="day-row">
+              <div class="day-label" style="color:#4ade80">Fri</div>
+              <div class="day-content">Leave <strong>8am</strong> → arrive 2:30pm → Tunnel View → Bridalveil Fall → <strong>Valley Lodge dinner</strong></div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#4ade80">Sat</div>
+              <div class="day-content"><strong>6am</strong> sunrise Valley View → Mist Trail to <strong>Vernal + Nevada Falls</strong> → Mirror Lake</div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#4ade80">Sun</div>
+              <div class="day-content"><strong>Mariposa Grove</strong> sequoias → drive home</div>
+            </div>
+            <div class="weather-tip">
+              <span class="weather-icon">🌈</span>
+              <span class="weather-text">60–75°F, peak waterfall season. Rain jacket recommended.</span>
+            </div>
+            <div class="card-checklist">
+              <div class="checklist-label">Bookings</div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="yos-reservation" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Park entrance reservation (recreation.gov)</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="yos-lodge" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Valley Lodge</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="yos-halfdome" />
+                <span class="check-text">Half Dome permit — apply 2 days before May 9</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAND CANYON -->
+      <div class="trip-card">
+        <div class="trip-card-top-bar" style="background:#fbbf24"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-park">
+              <span class="card-emoji">🪨</span>
+              <div class="card-park-name">Grand Canyon</div>
+            </div>
+            <div class="days-badge" id="badge-canyon" style="background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)">— days</div>
+          </div>
+          <div class="card-meta">
+            <span class="pill">📅 May 29–31, 2026</span>
+            <span class="pill">🚗 Drive 5hrs from SD</span>
+            <span class="pill">Arizona</span>
+          </div>
+
+          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+            Day-by-day plan
+            <span class="toggle-icon">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="itinerary-body">
+            <div class="day-row">
+              <div class="day-label" style="color:#fbbf24">Fri</div>
+              <div class="day-content">Leave <strong>10am</strong> → arrive 3pm → <strong>Rim Trail</strong> sunset → El Tovar dinner</div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#fbbf24">Sat</div>
+              <div class="day-content"><strong>5:30am</strong> South Kaibab down + Bright Angel up → Desert View Watchtower → <strong>Mather Point sunset</strong></div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#fbbf24">Sun</div>
+              <div class="day-content">Morning hike → drive home <strong>via Flagstaff</strong></div>
+            </div>
+            <div class="weather-tip">
+              <span class="weather-icon">☀️</span>
+              <span class="weather-text">75–85°F on rim, much hotter below. Start at sunrise.</span>
+            </div>
+            <div class="card-checklist">
+              <div class="checklist-label">Bookings</div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="gc-eltovar" />
+                <span class="check-text">El Tovar dinner reservation</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="gc-lodge" />
+                <span class="check-text">Bright Angel Lodge</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YELLOWSTONE -->
+      <div class="trip-card">
+        <div class="trip-card-top-bar" style="background:#60a5fa"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-park">
+              <span class="card-emoji">🌋</span>
+              <div class="card-park-name">Yellowstone + Grand Teton</div>
+            </div>
+            <div class="days-badge" id="badge-yellowstone" style="background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25)">— days</div>
+          </div>
+          <div class="card-meta">
+            <span class="pill">📅 Jul 10–14, 2026</span>
+            <span class="pill">✈️ Fly SAN → JAC</span>
+            <span class="pill">Wyoming</span>
+          </div>
+
+          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+            Day-by-day plan
+            <span class="toggle-icon">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="itinerary-body">
+            <div class="day-row">
+              <div class="day-label" style="color:#60a5fa">Fri</div>
+              <div class="day-content">Fly in → <strong>Jackson town dinner</strong></div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#60a5fa">Sat</div>
+              <div class="day-content"><strong>Jenny Lake</strong> → Hidden Falls → Snake River Overlook → <strong>Oxbow Bend</strong> sunset</div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#60a5fa">Sun</div>
+              <div class="day-content"><strong>Grand Prismatic Spring</strong> → Old Faithful → Firehole River swim</div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#60a5fa">Mon</div>
+              <div class="day-content">Grand Canyon of Yellowstone → <strong>Artist Point</strong> → Lamar Valley wildlife → Mammoth Hot Springs</div>
+            </div>
+            <div class="day-row">
+              <div class="day-label" style="color:#60a5fa">Tue</div>
+              <div class="day-content">Morning wildlife drive → <strong>fly home</strong></div>
+            </div>
+            <div class="weather-tip">
+              <span class="weather-icon">⛈️</span>
+              <span class="weather-text">70–85°F, afternoon thunderstorms common. Layers for mornings.</span>
+            </div>
+            <div class="card-checklist">
+              <div class="checklist-label">Bookings</div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="ys-flights" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Flights SAN ↔ JAC</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this)" data-id="ys-inn" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Old Faithful Inn</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /trips-grid -->
+
+    <!-- PASS CALLOUT -->
+    <div class="pass-callout">
+      <div class="pass-icon">🎫</div>
+      <div class="pass-text">
+        <strong>America the Beautiful Pass</strong>
+        Entrance fees covered at all 4 parks — no need to book entry tickets.
+      </div>
+      <div class="savings-badge">~$120 saved</div>
+    </div>
+
+    <!-- BOOKING SECTION -->
+    <div class="booking-section" id="booking">
+      <div class="section-header">
+        <h2>Booking Checklist</h2>
+        <p>Track what's confirmed — saved automatically to your browser</p>
+      </div>
+      <div class="booking-card">
+        <div class="progress-wrap">
+          <div class="progress-top">
+            <span class="progress-label">Overall progress</span>
+            <span class="progress-count" id="progress-count">0 of 8 booked</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="booking-cols">
+          <div>
+            <div class="booking-col-title">
+              <div class="col-dot urgent"></div>
+              Urgent — Book Now
+            </div>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-angels" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">Angels Landing Permit</div>
+                <div class="booking-item-sub">recreation.gov · Zion · Apr 11</div>
+              </div>
+            </label>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-yos-res" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">Yosemite Entrance Reservation</div>
+                <div class="booking-item-sub">recreation.gov · May 8</div>
+              </div>
+            </label>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-valley-lodge" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">Yosemite Valley Lodge</div>
+                <div class="booking-item-sub">May 8–10 · 2 nights</div>
+              </div>
+            </label>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-old-faithful" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">Old Faithful Inn</div>
+                <div class="booking-item-sub">Jul 10–14 · 4 nights</div>
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <div class="booking-col-title">
+              <div class="col-dot soon"></div>
+              Soon
+            </div>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-flights" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">Flights SAN ↔ JAC</div>
+                <div class="booking-item-sub">Jackson Hole · Jul 10 + Jul 14</div>
+              </div>
+            </label>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-gc-lodge" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">Grand Canyon Lodge</div>
+                <div class="booking-item-sub">Bright Angel · May 29–31</div>
+              </div>
+            </label>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-eltovar" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">El Tovar Dinner Reservation</div>
+                <div class="booking-item-sub">Grand Canyon · May 29</div>
+              </div>
+            </label>
+            <label class="booking-check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-zion-hotel" />
+              <div class="booking-item-info">
+                <div class="booking-item-name">Springdale Hotel (Zion)</div>
+                <div class="booking-item-sub">Apr 10–12 · 2 nights</div>
+              </div>
+            </label>
+            <div class="booking-note">
+              <strong>Half Dome Permit:</strong> Apply via lottery 2 days before May 9 — check recreation.gov
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <p>Made with ❤️ for <span>Paolo &amp; Brooke</span> · National Parks 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    // COUNTDOWN
+    var trip1 = new Date('2026-04-10T14:00:00');
+
+    function updateCountdown() {
+      var now = new Date();
+      var diff = trip1 - now;
+      if (diff <= 0) {
+        ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id) {
+          document.getElementById(id).textContent = '00';
+        });
+        return;
+      }
+      var days  = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var mins  = Math.floor((diff % 3600000) / 60000);
+      var secs  = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+      document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // DAYS AWAY BADGES
+    var tripDates = [
+      { id: 'badge-zion',        date: new Date('2026-04-10') },
+      { id: 'badge-yosemite',    date: new Date('2026-05-08') },
+      { id: 'badge-canyon',      date: new Date('2026-05-29') },
+      { id: 'badge-yellowstone', date: new Date('2026-07-10') },
+    ];
+
+    (function() {
+      var today = new Date();
+      today.setHours(0,0,0,0);
+      tripDates.forEach(function(t) {
+        var el = document.getElementById(t.id);
+        if (!el) return;
+        var days = Math.ceil((t.date - today) / 86400000);
+        if (days > 0)       el.textContent = days + ' days away';
+        else if (days === 0) el.textContent = 'Today!';
+        else                 el.textContent = 'Done ✓';
+      });
+    })();
+
+    // ITINERARY TOGGLE
+    function toggleItinerary(btn) {
+      btn.classList.toggle('open');
+      btn.nextElementSibling.classList.toggle('open');
+    }
+
+    // CHECKBOX PERSISTENCE
+    function saveCheck(input) {
+      var id = input.getAttribute('data-id');
+      if (id) localStorage.setItem('check_' + id, input.checked ? '1' : '0');
+    }
+
+    function loadChecks() {
+      document.querySelectorAll('input[type="checkbox"][data-id]').forEach(function(cb) {
+        if (localStorage.getItem('check_' + cb.getAttribute('data-id')) === '1') {
+          cb.checked = true;
+        }
+      });
+    }
+
+    // PROGRESS BAR
+    var BOOKING_IDS = ['b-angels','b-yos-res','b-valley-lodge','b-old-faithful','b-flights','b-gc-lodge','b-eltovar','b-zion-hotel'];
+
+    function updateProgress() {
+      var done = BOOKING_IDS.filter(function(id) {
+        var cb = document.querySelector('[data-id="' + id + '"]');
+        return cb && cb.checked;
+      }).length;
+      var total = BOOKING_IDS.length;
+      document.getElementById('progress-count').textContent = done + ' of ' + total + ' booked';
+      document.getElementById('progress-fill').style.width = Math.round((done / total) * 100) + '%';
+    }
+
+    loadChecks();
+    updateProgress();
+  </script>
+</body>
+</html>
