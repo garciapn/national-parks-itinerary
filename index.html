@@ -555,6 +555,46 @@
 
     .urgent-dot { width: 6px; height: 6px; border-radius: 50%; background: #ef4444; flex-shrink: 0; }
 
+    .checklist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .checklist-counter {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      background: #1c1c1c;
+      border: 1px solid #2a2a2a;
+      border-radius: 100px;
+      padding: 2px 8px;
+    }
+
+    .check-item.pass-item { cursor: default; }
+
+    .check-item.pass-item input[type="checkbox"] {
+      background: rgba(74,222,128,0.12);
+      border-color: rgba(74,222,128,0.35);
+      cursor: default;
+    }
+
+    .check-item.pass-item input[type="checkbox"]:checked {
+      background: rgba(74,222,128,0.12);
+      border-color: rgba(74,222,128,0.35);
+    }
+
+    .check-item.pass-item input[type="checkbox"]:checked::after {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%234ade80' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .check-item.pass-item .check-text {
+      color: rgba(74,222,128,0.55);
+      font-size: 12px;
+    }
+
     /* PASS CALLOUT */
     .pass-callout {
       background: var(--surface);
@@ -899,18 +939,29 @@
               <span class="weather-icon">🌤️</span>
               <span class="weather-text">65–75°F, perfect hiking weather. Layers for morning.</span>
             </div>
-            <div class="card-checklist">
-              <div class="checklist-label">Bookings</div>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="zion-angels" />
-                <div class="urgent-dot"></div>
-                <span class="check-text">Angels Landing permit (recreation.gov)</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="zion-hotel" />
-                <span class="check-text">Cable Mountain Lodge</span>
-              </label>
+          </div>
+          <div class="card-checklist">
+            <div class="checklist-header">
+              <div class="checklist-label">Booking Checklist</div>
+              <div class="checklist-counter" id="counter-zion">0/4 booked</div>
             </div>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('zion')" data-id="card-zion-angels" />
+              <div class="urgent-dot"></div>
+              <span class="check-text">Angels Landing permit — recreation.gov</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('zion')" data-id="card-zion-hotel" />
+              <span class="check-text">Hotel in Springdale (Cable Mountain Lodge or similar)</span>
+            </label>
+            <label class="check-item pass-item">
+              <input type="checkbox" checked disabled />
+              <span class="check-text">Bryce Canyon entrance ✅ covered by pass</span>
+            </label>
+            <label class="check-item pass-item">
+              <input type="checkbox" checked disabled />
+              <span class="check-text">Zion entrance ✅ covered by pass</span>
+            </label>
           </div>
         </div>
       </div>
@@ -955,23 +1006,30 @@
               <span class="weather-icon">🌈</span>
               <span class="weather-text">60–75°F, peak waterfall season. Rain jacket recommended.</span>
             </div>
-            <div class="card-checklist">
-              <div class="checklist-label">Bookings</div>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="yos-reservation" />
-                <div class="urgent-dot"></div>
-                <span class="check-text">Park entrance reservation (recreation.gov)</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="yos-lodge" />
-                <div class="urgent-dot"></div>
-                <span class="check-text">Valley Lodge</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="yos-halfdome" />
-                <span class="check-text">Half Dome permit — apply 2 days before May 9</span>
-              </label>
+          </div>
+          <div class="card-checklist">
+            <div class="checklist-header">
+              <div class="checklist-label">Booking Checklist</div>
+              <div class="checklist-counter" id="counter-yosemite">0/4 booked</div>
             </div>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-reservation" />
+              <div class="urgent-dot"></div>
+              <span class="check-text">Park entrance reservation — recreation.gov</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-lodge" />
+              <div class="urgent-dot"></div>
+              <span class="check-text">Yosemite Valley Lodge</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-halfdome" />
+              <span class="check-text">Half Dome permit — apply 2 days before (recreation.gov)</span>
+            </label>
+            <label class="check-item pass-item">
+              <input type="checkbox" checked disabled />
+              <span class="check-text">Yosemite entrance ✅ covered by pass</span>
+            </label>
           </div>
         </div>
       </div>
@@ -1016,17 +1074,24 @@
               <span class="weather-icon">☀️</span>
               <span class="weather-text">75–85°F on rim, much hotter below. Start at sunrise.</span>
             </div>
-            <div class="card-checklist">
-              <div class="checklist-label">Bookings</div>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="gc-eltovar" />
-                <span class="check-text">El Tovar dinner reservation</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="gc-lodge" />
-                <span class="check-text">Bright Angel Lodge</span>
-              </label>
+          </div>
+          <div class="card-checklist">
+            <div class="checklist-header">
+              <div class="checklist-label">Booking Checklist</div>
+              <div class="checklist-counter" id="counter-canyon">0/3 booked</div>
             </div>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('canyon')" data-id="card-gc-eltovar" />
+              <span class="check-text">El Tovar dinner reservation — grandcanyonlodges.com</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('canyon')" data-id="card-gc-lodge" />
+              <span class="check-text">Bright Angel Lodge or Maswik Lodge</span>
+            </label>
+            <label class="check-item pass-item">
+              <input type="checkbox" checked disabled />
+              <span class="check-text">Grand Canyon entrance ✅ covered by pass</span>
+            </label>
           </div>
         </div>
       </div>
@@ -1079,19 +1144,34 @@
               <span class="weather-icon">⛈️</span>
               <span class="weather-text">70–85°F, afternoon thunderstorms common. Layers for mornings.</span>
             </div>
-            <div class="card-checklist">
-              <div class="checklist-label">Bookings</div>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="ys-flights" />
-                <div class="urgent-dot"></div>
-                <span class="check-text">Flights SAN ↔ JAC</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" onchange="saveCheck(this)" data-id="ys-inn" />
-                <div class="urgent-dot"></div>
-                <span class="check-text">Old Faithful Inn</span>
-              </label>
+          </div>
+          <div class="card-checklist">
+            <div class="checklist-header">
+              <div class="checklist-label">Booking Checklist</div>
+              <div class="checklist-counter" id="counter-yellowstone">0/5 booked</div>
             </div>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-inn" />
+              <div class="urgent-dot"></div>
+              <span class="check-text">Old Faithful Inn or Canyon Lodge</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-flights" />
+              <div class="urgent-dot"></div>
+              <span class="check-text">Flights SAN → JAC (Jackson Hole Airport)</span>
+            </label>
+            <label class="check-item">
+              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-rental" />
+              <span class="check-text">Rental car at JAC</span>
+            </label>
+            <label class="check-item pass-item">
+              <input type="checkbox" checked disabled />
+              <span class="check-text">Yellowstone entrance ✅ covered by pass</span>
+            </label>
+            <label class="check-item pass-item">
+              <input type="checkbox" checked disabled />
+              <span class="check-text">Grand Teton entrance ✅ covered by pass</span>
+            </label>
           </div>
         </div>
       </div>
@@ -1290,8 +1370,21 @@
       document.getElementById('progress-fill').style.width = Math.round((done / total) * 100) + '%';
     }
 
+    // CARD COUNTERS
+    function updateCardCounter(tripId) {
+      var counter = document.getElementById('counter-' + tripId);
+      if (!counter) return;
+      var container = counter.closest('.card-checklist');
+      var allItems = container.querySelectorAll('input[type="checkbox"]');
+      var total = allItems.length;
+      var checked = 0;
+      allItems.forEach(function(cb) { if (cb.checked) checked++; });
+      counter.textContent = checked + '/' + total + ' booked';
+    }
+
     loadChecks();
     updateProgress();
+    ['zion','yosemite','canyon','yellowstone'].forEach(updateCardCounter);
   </script>
 </body>
 </html>
