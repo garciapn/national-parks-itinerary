@@ -3,796 +3,992 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Great Escape · Paolo & Brooke · National Parks 2026</title>
+  <title>The Great Escape · Paolo &amp; Brooke · National Parks 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Bebas+Neue&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0d0d0d;
-      --surface: #141414;
-      --border: #222222;
-      --accent: #ff6b35;
-      --green: #4ade80;
-      --text: #ffffff;
-      --muted: #888888;
-    }
-
     html { scroll-behavior: smooth; }
 
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 15px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+    /* ────────────────────────────── */
+    /*  STYLE PICKER                  */
+    /* ────────────────────────────── */
+
+    .style-picker {
+      position: fixed;
+      top: 14px;
+      right: 16px;
+      z-index: 9999;
+      display: flex;
+      gap: 3px;
+      padding: 4px;
+      border-radius: 100px;
     }
+    .style-picker-btn {
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: background 0.2s, color 0.2s;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    [data-theme="dark-pro"] .style-picker {
+      background: rgba(17,17,17,0.92);
+      border: 1px solid #2a2a2a;
+      backdrop-filter: blur(20px);
+    }
+    [data-theme="dark-pro"] .style-picker-btn { background: transparent; color: #444; font-family: 'Inter', sans-serif; }
+    [data-theme="dark-pro"] .style-picker-btn.active { background: #3b82f6; color: #fff; }
+    [data-theme="dark-pro"] .style-picker-btn:not(.active):hover { color: #aaa; }
+
+    [data-theme="magazine"] .style-picker {
+      background: rgba(250,250,248,0.95);
+      border: 1px solid #d8d5cf;
+      backdrop-filter: blur(20px);
+    }
+    [data-theme="magazine"] .style-picker-btn { background: transparent; color: #bbb; font-family: 'Source Serif 4', serif; font-style: italic; }
+    [data-theme="magazine"] .style-picker-btn.active { background: #1a1a1a; color: #fff; font-style: normal; }
+    [data-theme="magazine"] .style-picker-btn:not(.active):hover { color: #666; }
+
+    [data-theme="adventure"] .style-picker {
+      background: rgba(10,22,40,0.92);
+      border: 1px solid rgba(245,158,11,0.25);
+      backdrop-filter: blur(20px);
+    }
+    [data-theme="adventure"] .style-picker-btn {
+      background: transparent; color: #3d4f66;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px;
+    }
+    [data-theme="adventure"] .style-picker-btn.active { background: #f59e0b; color: #0a1628; }
+    [data-theme="adventure"] .style-picker-btn:not(.active):hover { color: #f59e0b; }
+
+    /* ────────────────────────────── */
+    /*  SHARED LAYOUT PRIMITIVES      */
+    /* ────────────────────────────── */
 
     .wrap {
-      max-width: 1200px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 0 48px;
     }
+    @media (max-width: 768px) { .wrap { padding: 0 20px; } }
 
-    @media (max-width: 768px) {
-      .wrap { padding: 0 24px; }
-    }
-
-    /* NAV */
     nav {
-      border-bottom: 1px solid var(--border);
-      padding: 20px 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(13,13,13,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
     }
-
-    nav .inner {
-      max-width: 1200px;
+    .nav-inner {
+      max-width: 1160px;
       margin: 0 auto;
       padding: 0 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      height: 56px;
     }
-
-    @media (max-width: 768px) { nav .inner { padding: 0 24px; } }
-
-    .nav-logo {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: -0.01em;
-    }
-
-    .nav-logo span { color: var(--accent); }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      transition: color 0.15s;
-    }
-
-    .nav-links a:hover { color: var(--text); }
-
-    /* HERO */
-    .hero {
-      padding: 96px 0 72px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255,107,53,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,107,53,0.1);
-      border: 1px solid rgba(255,107,53,0.2);
-      border-radius: 100px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 32px;
-    }
-
-    .hero-eyebrow .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s ease-in-out infinite;
-    }
+    @media (max-width: 768px) { .nav-inner { padding: 0 20px; } }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.3; }
     }
-
-    .hero h1 {
-      font-size: clamp(48px, 8vw, 72px);
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -0.04em;
-      line-height: 1.05;
-      margin-bottom: 20px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .hero h1 .gradient {
-      background: linear-gradient(135deg, #ff6b35 0%, #fbbf24 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /*  THEME 1 — DARK PRO (default)                                      */
+    /* ═══════════════════════════════════════════════════════════════════ */
+
+    body, body[data-theme="dark-pro"] {
+      background: #000000;
+      color: #ffffff;
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .hero-sub {
-      font-size: 18px;
-      color: var(--muted);
-      font-weight: 400;
-      margin-bottom: 56px;
+    /* — NAV */
+    [data-theme="dark-pro"] nav {
+      background: rgba(0,0,0,0.88);
+      border-bottom: 1px solid #111;
+      backdrop-filter: blur(20px);
+    }
+    [data-theme="dark-pro"] .nav-logo {
+      font-size: 13px; font-weight: 700; color: #fff;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    [data-theme="dark-pro"] .nav-logo em { color: #3b82f6; font-style: normal; }
+    [data-theme="dark-pro"] .nav-links { display: flex; gap: 28px; list-style: none; }
+    [data-theme="dark-pro"] .nav-links a {
+      color: #3a3a3a; text-decoration: none; font-size: 12px;
+      font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.15s;
+    }
+    [data-theme="dark-pro"] .nav-links a:hover { color: #fff; }
+
+    /* — HERO */
+    [data-theme="dark-pro"] .hero {
+      padding: 80px 0 56px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    [data-theme="dark-pro"] .hero::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -5%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(59,130,246,0.055) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    [data-theme="dark-pro"] .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.18);
+      padding: 5px 12px;
+      font-size: 11px; font-weight: 700; color: #3b82f6;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 28px; border-radius: 2px;
+    }
+    [data-theme="dark-pro"] .hero-eyebrow .dot {
+      width: 5px; height: 5px; background: #3b82f6; border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    [data-theme="dark-pro"] .hero h1 {
+      font-size: clamp(52px, 8vw, 92px);
+      font-weight: 800; letter-spacing: -0.05em; line-height: 1;
+      margin-bottom: 14px; color: #fff;
+    }
+    [data-theme="dark-pro"] .hero h1 em { font-style: normal; color: #3b82f6; }
+    [data-theme="dark-pro"] .hero-sub {
+      font-size: 15px; color: #333; font-weight: 400;
+      letter-spacing: 0.03em; margin-bottom: 52px;
     }
 
-    /* COUNTDOWN */
-    .countdown-wrapper {
-      display: flex;
+    /* — COUNTDOWN */
+    [data-theme="dark-pro"] .countdown-wrapper {
+      display: flex; align-items: flex-end; gap: 0; margin-bottom: 8px;
+    }
+    [data-theme="dark-pro"] .countdown-unit {
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding-right: 40px; margin-right: 40px;
+      border-right: 1px solid #111;
+    }
+    [data-theme="dark-pro"] .countdown-unit:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+    [data-theme="dark-pro"] .countdown-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(44px, 6.5vw, 72px);
+      font-weight: 700; color: #3b82f6; line-height: 1; letter-spacing: -0.02em;
+    }
+    [data-theme="dark-pro"] .countdown-label {
+      font-size: 10px; font-weight: 600; color: #222;
+      letter-spacing: 0.18em; text-transform: uppercase; margin-top: 4px;
+    }
+    [data-theme="dark-pro"] .countdown-trip-label {
+      font-size: 12px; color: #2a2a2a; margin-bottom: 44px;
+      letter-spacing: 0.03em; font-family: 'JetBrains Mono', monospace;
+    }
+    [data-theme="dark-pro"] .countdown-trip-label strong { color: #3b82f6; font-weight: 500; }
+
+    /* — TIMELINE */
+    [data-theme="dark-pro"] .timeline { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    [data-theme="dark-pro"] .timeline-item {
+      display: flex; align-items: center; gap: 10px; padding: 6px 0; margin-right: 20px;
+    }
+    [data-theme="dark-pro"] .timeline-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    [data-theme="dark-pro"] .timeline-name { font-size: 13px; font-weight: 500; color: #555; }
+    [data-theme="dark-pro"] .timeline-date {
+      font-size: 11px; color: #2a2a2a;
+      font-family: 'JetBrains Mono', monospace; margin-left: 6px;
+    }
+    [data-theme="dark-pro"] .timeline-connector {
+      width: 20px; height: 1px; background: #111; margin-right: 20px; flex-shrink: 0;
+    }
+
+    /* — STATS */
+    [data-theme="dark-pro"] .stats-section {
+      border-top: 1px solid #0f0f0f; border-bottom: 1px solid #0f0f0f;
+      padding: 20px 0; margin-bottom: 60px;
+    }
+    [data-theme="dark-pro"] .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    [data-theme="dark-pro"] .stat { text-align: center; padding: 8px 0; border-right: 1px solid #0f0f0f; }
+    [data-theme="dark-pro"] .stat:last-child { border-right: none; }
+    [data-theme="dark-pro"] .stat-value {
+      font-size: 34px; font-weight: 700; letter-spacing: -0.04em;
+      color: #fff; line-height: 1; margin-bottom: 4px;
+    }
+    [data-theme="dark-pro"] .stat-label {
+      font-size: 10px; font-weight: 600; color: #222;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+
+    /* — SECTION HEADER */
+    [data-theme="dark-pro"] .section-header { margin-bottom: 20px; }
+    [data-theme="dark-pro"] .section-header h2 {
+      font-size: 18px; font-weight: 700; letter-spacing: -0.02em; color: #fff;
+    }
+    [data-theme="dark-pro"] .section-header p { color: #222; font-size: 12px; margin-top: 2px; }
+
+    /* — TRIPS GRID */
+    [data-theme="dark-pro"] .trips-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 40px;
+    }
+    @media (max-width: 860px) { [data-theme="dark-pro"] .trips-grid { grid-template-columns: 1fr; } }
+
+    /* — TRIP CARD */
+    [data-theme="dark-pro"] .trip-card {
+      background: #0a0a0a; border: 1px solid #141414; border-radius: 0;
+      overflow: hidden; transition: border-color 0.2s;
+    }
+    [data-theme="dark-pro"] .trip-card:hover { border-color: #2a2a2a; }
+    [data-theme="dark-pro"] .trip-card-top-bar { height: 2px; }
+    [data-theme="dark-pro"] .card-body { padding: 20px 22px; }
+    [data-theme="dark-pro"] .card-top {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+    }
+    [data-theme="dark-pro"] .card-park { display: flex; align-items: center; gap: 10px; }
+    [data-theme="dark-pro"] .card-emoji { font-size: 15px; }
+    [data-theme="dark-pro"] .card-park-name {
+      font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -0.02em;
+    }
+    [data-theme="dark-pro"] .days-badge {
+      font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 2px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    [data-theme="dark-pro"] .card-meta {
+      display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 14px; align-items: center;
+    }
+    [data-theme="dark-pro"] .pill {
+      font-size: 11px; font-weight: 500; color: #333; letter-spacing: 0.02em;
+    }
+    [data-theme="dark-pro"] .pill::after { content: ' · '; color: #1a1a1a; }
+    [data-theme="dark-pro"] .pill:last-child::after { content: ''; }
+
+    [data-theme="dark-pro"] .itinerary-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: transparent; border: none;
+      border-top: 1px solid #0f0f0f; padding: 9px 0;
+      cursor: pointer; color: #2a2a2a;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace; transition: color 0.15s;
+    }
+    [data-theme="dark-pro"] .itinerary-toggle:hover { color: #666; }
+    [data-theme="dark-pro"] .toggle-icon { transition: transform 0.2s; color: #1e1e1e; }
+    [data-theme="dark-pro"] .itinerary-body { display: none; padding: 8px 0; }
+    [data-theme="dark-pro"] .itinerary-body.open { display: block; }
+    [data-theme="dark-pro"] .day-row {
+      display: flex; gap: 16px; padding: 7px 0; border-bottom: 1px solid #080808;
+    }
+    [data-theme="dark-pro"] .day-row:last-of-type { border-bottom: none; }
+    [data-theme="dark-pro"] .day-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+      width: 28px; flex-shrink: 0; padding-top: 3px; letter-spacing: 0.08em;
+    }
+    [data-theme="dark-pro"] .day-content { font-size: 12px; color: #555; line-height: 1.5; }
+    [data-theme="dark-pro"] .day-content strong { color: #aaa; font-weight: 600; }
+    [data-theme="dark-pro"] .weather-tip {
+      display: flex; align-items: flex-start; gap: 8px; margin-top: 8px;
+      padding: 8px 10px; background: #060606; border: 1px solid #0f0f0f;
+      font-size: 11px; color: #2e2e2e;
+    }
+
+    /* — CHECKLIST */
+    [data-theme="dark-pro"] .card-checklist { padding-top: 14px; }
+    [data-theme="dark-pro"] .checklist-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+    }
+    [data-theme="dark-pro"] .checklist-label {
+      font-size: 10px; font-weight: 700; color: #1e1e1e;
+      letter-spacing: 0.14em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;
+    }
+    [data-theme="dark-pro"] .checklist-counter {
+      font-size: 11px; color: #1e1e1e; font-family: 'JetBrains Mono', monospace;
+    }
+    [data-theme="dark-pro"] .check-item {
+      display: flex; align-items: center; gap: 10px; padding: 7px 0;
+      cursor: pointer; border-bottom: 1px solid #080808;
+    }
+    [data-theme="dark-pro"] .check-item:last-child { border-bottom: none; }
+    [data-theme="dark-pro"] .check-item input[type="checkbox"] {
+      appearance: none; -webkit-appearance: none;
+      width: 13px; height: 13px; border: 1px solid #1e1e1e;
+      border-radius: 0; background: transparent; cursor: pointer;
+      flex-shrink: 0; position: relative; transition: all 0.15s;
+    }
+    [data-theme="dark-pro"] .check-item input[type="checkbox"]:checked {
+      background: #3b82f6; border-color: #3b82f6;
+    }
+    [data-theme="dark-pro"] .check-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 9px; background-repeat: no-repeat; background-position: center;
+    }
+    [data-theme="dark-pro"] .check-text { font-size: 12px; color: #444; }
+    [data-theme="dark-pro"] .check-item input:checked ~ .check-text { color: #1a1a1a; text-decoration: line-through; }
+    [data-theme="dark-pro"] .urgent-dot {
+      width: 4px; height: 4px; background: #ef4444; border-radius: 50%; flex-shrink: 0;
+    }
+    [data-theme="dark-pro"] .pass-item .check-text { color: #1a1a1a; }
+
+    /* — PASS CALLOUT */
+    [data-theme="dark-pro"] .pass-callout {
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+      background: #060606; border: 1px solid #111; border-left: 2px solid #3b82f6;
+      margin-bottom: 40px;
+    }
+    [data-theme="dark-pro"] .pass-icon { font-size: 16px; }
+    [data-theme="dark-pro"] .pass-text { flex: 1; font-size: 12px; color: #333; }
+    [data-theme="dark-pro"] .pass-text strong {
+      display: block; color: #555; font-weight: 600; font-size: 12px; margin-bottom: 1px;
+    }
+    [data-theme="dark-pro"] .savings-badge {
+      font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: #3b82f6;
+    }
+
+    /* — FOOTER */
+    [data-theme="dark-pro"] footer { border-top: 1px solid #0a0a0a; padding: 24px 0; text-align: center; }
+    [data-theme="dark-pro"] footer p {
+      font-size: 11px; color: #1a1a1a; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;
+    }
+    [data-theme="dark-pro"] footer p span { color: #3b82f6; }
+
+    @media (max-width: 640px) {
+      [data-theme="dark-pro"] .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      [data-theme="dark-pro"] .stat:nth-child(2) { border-right: none; }
+      [data-theme="dark-pro"] .stat:nth-child(n+3) { border-top: 1px solid #0f0f0f; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /*  THEME 2 — MAGAZINE                                                */
+    /* ═══════════════════════════════════════════════════════════════════ */
+
+    body[data-theme="magazine"] {
+      background: #f7f6f2;
+      color: #1a1a1a;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* — NAV */
+    [data-theme="magazine"] nav {
+      background: #f7f6f2;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    [data-theme="magazine"] .nav-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic; font-size: 19px; font-weight: 700;
+      color: #1a1a1a; letter-spacing: -0.01em;
+    }
+    [data-theme="magazine"] .nav-logo em { color: #c97a47; font-style: italic; }
+    [data-theme="magazine"] .nav-links { display: flex; gap: 28px; list-style: none; }
+    [data-theme="magazine"] .nav-links a {
+      color: #b0aca3; text-decoration: none; font-size: 13px;
+      font-family: 'Source Serif 4', serif; font-style: italic; transition: color 0.15s;
+    }
+    [data-theme="magazine"] .nav-links a:hover { color: #1a1a1a; }
+
+    /* — HERO */
+    [data-theme="magazine"] .hero {
+      padding: 52px 0 44px;
+      text-align: center;
+      border-bottom: 1px solid #ddd9d2;
+    }
+    [data-theme="magazine"] .hero-eyebrow {
+      display: block;
+      font-family: 'Source Serif 4', serif; font-style: italic; font-size: 13px;
+      color: #b0aca3; letter-spacing: 0.03em; margin-bottom: 10px;
+    }
+    [data-theme="magazine"] .hero-eyebrow .dot { display: none; }
+    [data-theme="magazine"] .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 900; font-style: italic;
+      font-size: clamp(60px, 11vw, 122px);
+      letter-spacing: -0.03em; line-height: 0.92;
+      margin-bottom: 18px; color: #1a1a1a;
+    }
+    [data-theme="magazine"] .hero h1 em { color: #c97a47; font-style: italic; }
+    [data-theme="magazine"] .hero-sub {
+      font-family: 'Source Serif 4', serif; font-size: 15px;
+      color: #a09c93; font-style: italic; margin-bottom: 40px;
+    }
+
+    /* — COUNTDOWN */
+    [data-theme="magazine"] .countdown-wrapper {
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+    [data-theme="magazine"] .countdown-unit {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 32px; border-right: 1px solid #ddd9d2;
+    }
+    [data-theme="magazine"] .countdown-unit:last-child { border-right: none; }
+    [data-theme="magazine"] .countdown-number {
+      font-family: 'Playfair Display', serif; font-weight: 700;
+      font-size: clamp(36px, 5vw, 52px); color: #1a1a1a;
+      line-height: 1; letter-spacing: -0.02em;
+    }
+    [data-theme="magazine"] .countdown-label {
+      font-family: 'Source Serif 4', serif; font-style: italic;
+      font-size: 12px; color: #c0bbb2; text-transform: lowercase; margin-top: 2px;
+    }
+    [data-theme="magazine"] .countdown-trip-label {
+      font-family: 'Source Serif 4', serif; font-style: italic;
+      font-size: 14px; color: #b0aca3; margin-bottom: 30px;
+    }
+    [data-theme="magazine"] .countdown-trip-label strong { color: #c97a47; font-style: normal; font-weight: 600; }
+
+    /* — TIMELINE */
+    [data-theme="magazine"] .timeline {
+      display: flex; justify-content: center; flex-wrap: wrap;
+      border-top: 1px solid #ddd9d2; padding-top: 0;
+    }
+    [data-theme="magazine"] .timeline-item {
+      padding: 10px 24px; text-align: center; border-right: 1px solid #ddd9d2;
+    }
+    [data-theme="magazine"] .timeline-item:last-child { border-right: none; }
+    [data-theme="magazine"] .timeline-dot { display: none; }
+    [data-theme="magazine"] .timeline-name {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 14px; font-weight: 700; color: #1a1a1a;
+    }
+    [data-theme="magazine"] .timeline-date {
+      font-family: 'Source Serif 4', serif; font-size: 12px; color: #b0aca3; font-style: italic;
+    }
+    [data-theme="magazine"] .timeline-connector { display: none; }
+
+    /* — STATS */
+    [data-theme="magazine"] .stats-section {
+      padding: 52px 0;
+      border-top: 1px solid #ddd9d2; border-bottom: 1px solid #ddd9d2;
+      margin-bottom: 60px;
+    }
+    [data-theme="magazine"] .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    [data-theme="magazine"] .stat { text-align: center; border-right: 1px solid #ddd9d2; padding: 0 16px; }
+    [data-theme="magazine"] .stat:last-child { border-right: none; }
+    [data-theme="magazine"] .stat-value {
+      font-family: 'Playfair Display', serif; font-size: 68px; font-weight: 900;
+      font-style: italic; color: #1a1a1a; line-height: 1; margin-bottom: 4px;
+    }
+    [data-theme="magazine"] .stat-label {
+      font-family: 'Source Serif 4', serif; font-size: 13px;
+      font-style: italic; color: #b0aca3; text-transform: lowercase; letter-spacing: 0.01em;
+    }
+
+    /* — SECTION HEADER */
+    [data-theme="magazine"] .section-header {
+      margin-bottom: 40px; border-bottom: 2px solid #1a1a1a; padding-bottom: 14px;
+    }
+    [data-theme="magazine"] .section-header h2 {
+      font-family: 'Playfair Display', serif; font-size: 38px;
+      font-weight: 700; font-style: italic; color: #1a1a1a; line-height: 1;
+    }
+    [data-theme="magazine"] .section-header p {
+      font-family: 'Source Serif 4', serif; font-style: italic;
+      color: #b0aca3; font-size: 14px; margin-top: 4px;
+    }
+
+    /* — TRIPS GRID: single column magazine spreads */
+    [data-theme="magazine"] .trips-grid {
+      display: grid; grid-template-columns: 1fr; gap: 0; margin-bottom: 48px;
+    }
+    [data-theme="magazine"] .trip-card {
+      border: none; border-radius: 0; background: transparent;
+      border-bottom: 1px solid #ddd9d2; overflow: visible;
+    }
+    [data-theme="magazine"] .trip-card-top-bar { display: none; }
+
+    /* Magazine cards: 3-col grid layout */
+    [data-theme="magazine"] .card-body {
+      display: grid;
+      grid-template-columns: 5fr 3fr;
+      grid-template-rows: auto auto auto auto;
+      padding: 36px 0;
+      column-gap: 0;
+    }
+    [data-theme="magazine"] .card-top {
+      grid-column: 1 / -1; grid-row: 1;
+      display: flex; align-items: baseline; gap: 16px; margin-bottom: 4px;
+    }
+    [data-theme="magazine"] .card-park { display: flex; align-items: baseline; gap: 10px; }
+    [data-theme="magazine"] .card-emoji { font-size: 22px; align-self: center; }
+    [data-theme="magazine"] .card-park-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 900; font-style: italic; color: #1a1a1a;
+      line-height: 1; letter-spacing: -0.02em;
+    }
+    [data-theme="magazine"] .days-badge {
+      font-family: 'Source Serif 4', serif; font-style: italic; font-size: 13px;
+      background: transparent !important; border: none !important; color: #b0aca3 !important;
+    }
+    [data-theme="magazine"] .card-meta {
+      grid-column: 1; grid-row: 2;
+      display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 16px;
       align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
+      border-top: 1px solid #ddd9d2; padding-top: 10px;
+    }
+    [data-theme="magazine"] .pill {
+      font-family: 'Source Serif 4', serif; font-style: italic;
+      font-size: 13px; color: #a09c93; padding: 0; background: transparent;
+    }
+    [data-theme="magazine"] .pill::after { content: ' · '; color: #ccc9c2; }
+    [data-theme="magazine"] .pill:last-child::after { content: ''; }
+
+    [data-theme="magazine"] .itinerary-toggle {
+      grid-column: 1; grid-row: 3;
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid #ede9e3; padding: 8px 0;
+      cursor: pointer; color: #c0bbb2;
+      font-size: 12px; font-style: italic;
+      font-family: 'Source Serif 4', serif;
+      text-align: left; display: flex; align-items: center; justify-content: space-between;
+      transition: color 0.15s;
+    }
+    [data-theme="magazine"] .itinerary-toggle:hover { color: #1a1a1a; }
+    [data-theme="magazine"] .toggle-icon { transition: transform 0.2s; }
+
+    [data-theme="magazine"] .itinerary-body {
+      grid-column: 1; grid-row: 4;
+      display: none; padding-right: 48px; padding-top: 4px;
+    }
+    [data-theme="magazine"] .itinerary-body.open { display: block; }
+    [data-theme="magazine"] .day-row {
+      display: flex; gap: 20px; padding: 10px 0; border-bottom: 1px solid #f0ece6;
+    }
+    [data-theme="magazine"] .day-row:last-of-type { border-bottom: none; }
+    [data-theme="magazine"] .day-label {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 15px; font-weight: 700; width: 36px; flex-shrink: 0; padding-top: 1px;
+    }
+    [data-theme="magazine"] .day-content {
+      font-family: 'Source Serif 4', serif; font-size: 14px; color: #636058; line-height: 1.6;
+    }
+    [data-theme="magazine"] .day-content strong { color: #1a1a1a; font-weight: 600; }
+    [data-theme="magazine"] .weather-tip {
+      display: flex; gap: 8px; margin-top: 14px;
+      font-family: 'Source Serif 4', serif; font-style: italic;
+      font-size: 13px; color: #b0aca3; padding: 0; background: transparent; border: none;
     }
 
-    .countdown-unit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 0 28px;
+    /* Checklist — editorial sidebar, right column spanning all rows */
+    [data-theme="magazine"] .card-checklist {
+      grid-column: 2; grid-row: 2 / 5;
+      padding-left: 32px;
+      border-left: 1px solid #ddd9d2;
+      align-self: start;
+    }
+    [data-theme="magazine"] .checklist-header {
+      margin-bottom: 14px; padding-bottom: 10px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    [data-theme="magazine"] .checklist-label {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 17px; font-weight: 700; color: #1a1a1a;
+    }
+    [data-theme="magazine"] .checklist-counter {
+      font-family: 'Source Serif 4', serif; font-style: italic;
+      font-size: 12px; color: #b0aca3; margin-top: 2px;
+    }
+    [data-theme="magazine"] .check-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 9px 0; cursor: pointer; border-bottom: 1px solid #f0ece6;
+    }
+    [data-theme="magazine"] .check-item:last-child { border-bottom: none; }
+    [data-theme="magazine"] .check-item input[type="checkbox"] {
+      appearance: none; -webkit-appearance: none;
+      width: 15px; height: 15px; border: 1px solid #ccc9c2;
+      border-radius: 2px; background: transparent; cursor: pointer;
+      flex-shrink: 0; margin-top: 3px; position: relative; transition: all 0.15s;
+    }
+    [data-theme="magazine"] .check-item input[type="checkbox"]:checked {
+      background: #c97a47; border-color: #c97a47;
+    }
+    [data-theme="magazine"] .check-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 9px; background-repeat: no-repeat; background-position: center;
+    }
+    [data-theme="magazine"] .check-text {
+      font-family: 'Source Serif 4', serif; font-size: 13px; color: #7a756d; line-height: 1.45;
+    }
+    [data-theme="magazine"] .check-item input:checked ~ .check-text { color: #c0bbb2; text-decoration: line-through; }
+    [data-theme="magazine"] .urgent-dot {
+      width: 5px; height: 5px; background: #c97a47; border-radius: 50;
+      flex-shrink: 0; margin-top: 6px;
+    }
+    [data-theme="magazine"] .pass-item .check-text { color: #c0bbb2; }
+
+    /* — PASS CALLOUT */
+    [data-theme="magazine"] .pass-callout {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 0; border-bottom: 1px solid #ddd9d2; margin-bottom: 48px;
+    }
+    [data-theme="magazine"] .pass-icon { font-size: 20px; }
+    [data-theme="magazine"] .pass-text { flex: 1; font-family: 'Source Serif 4', serif; font-size: 14px; color: #a09c93; font-style: italic; }
+    [data-theme="magazine"] .pass-text strong {
+      font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700;
+      color: #1a1a1a; display: inline; margin-right: 6px;
+    }
+    [data-theme="magazine"] .savings-badge {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 20px; font-weight: 700; color: #c97a47;
     }
 
-    .countdown-unit:not(:last-child) {
-      border-right: 1px solid var(--border);
+    /* — FOOTER */
+    [data-theme="magazine"] footer { border-top: 2px solid #1a1a1a; padding: 28px 0; text-align: center; }
+    [data-theme="magazine"] footer p {
+      font-family: 'Source Serif 4', serif; font-style: italic; font-size: 13px; color: #b0aca3;
     }
-
-    .countdown-number {
-      font-size: clamp(36px, 6vw, 56px);
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-
-    .countdown-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .countdown-trip-label {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 48px;
-    }
-
-    .countdown-trip-label strong { color: var(--accent); font-weight: 600; }
-
-    /* TIMELINE PILLS */
-    .timeline {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0;
-      row-gap: 12px;
-    }
-
-    .timeline-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 18px;
-      border-radius: 100px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      transition: border-color 0.2s, transform 0.2s;
-      cursor: default;
-    }
-
-    .timeline-item:hover {
-      transform: translateY(-1px);
-      border-color: var(--tc, var(--border));
-    }
-
-    .timeline-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .timeline-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .timeline-date {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .timeline-connector {
-      width: 24px;
-      height: 1px;
-      background: var(--border);
-      flex-shrink: 0;
-    }
+    [data-theme="magazine"] footer p span { color: #c97a47; }
 
     @media (max-width: 768px) {
-      .timeline { gap: 8px; }
-      .timeline-connector { display: none; }
+      [data-theme="magazine"] .card-body { grid-template-columns: 1fr; }
+      [data-theme="magazine"] .card-top { grid-column: 1; }
+      [data-theme="magazine"] .card-checklist {
+        grid-column: 1; grid-row: auto;
+        padding-left: 0; padding-top: 20px;
+        border-left: none; border-top: 1px solid #ddd9d2;
+      }
+      [data-theme="magazine"] .itinerary-body { padding-right: 0; }
     }
-
-    /* STATS */
-    .stats {
-      padding: 28px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 64px;
-    }
-
-    .stats-inner {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-    }
-
     @media (max-width: 640px) {
-      .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 16px 0; }
+      [data-theme="magazine"] .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      [data-theme="magazine"] .stat:nth-child(2) { border-right: none; }
+      [data-theme="magazine"] .stat:nth-child(n+3) { border-top: 1px solid #ddd9d2; padding-top: 24px; margin-top: 24px; }
     }
 
-    .stat-box {
-      text-align: center;
-      padding: 8px 0;
-    }
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /*  THEME 3 — ADVENTURE                                               */
+    /* ═══════════════════════════════════════════════════════════════════ */
 
-    .stat-box:not(:last-child) { border-right: 1px solid var(--border); }
-
-    @media (max-width: 640px) {
-      .stat-box:nth-child(2) { border-right: none; }
-    }
-
-    .stat-value {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    /* SECTION HEADER */
-    .section-header {
-      margin-bottom: 32px;
-    }
-
-    .section-header h2 {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .section-header p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    /* TRIPS GRID */
-    .trips-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 64px;
-    }
-
-    @media (max-width: 860px) {
-      .trips-grid { grid-template-columns: 1fr; }
-    }
-
-    /* TRIP CARD */
-    .trip-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-    }
-
-    .trip-card-top-bar {
-      height: 3px;
-    }
-
-    .trip-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .card-body {
-      padding: 24px;
-    }
-
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .card-park {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .card-emoji { font-size: 28px; line-height: 1; }
-
-    .card-park-name {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text);
-    }
-
-    .days-badge {
-      padding: 4px 10px;
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 500;
-      background: #1c1c1c;
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
-
-    /* ITINERARY */
-    .itinerary-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      background: none;
-      border: none;
-      border-top: 1px solid var(--border);
-      padding: 14px 0 0;
-      cursor: pointer;
-      color: var(--muted);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transition: color 0.15s;
-    }
-
-    .itinerary-toggle:hover { color: var(--text); }
-
-    .toggle-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      background: #1c1c1c;
-      border: 1px solid var(--border);
-      transition: transform 0.2s, background 0.15s;
-      flex-shrink: 0;
-    }
-
-    .itinerary-toggle.open .toggle-icon {
-      transform: rotate(180deg);
-    }
-
-    .itinerary-body {
-      display: none;
-      margin-top: 16px;
-    }
-
-    .itinerary-body.open { display: block; }
-
-    .day-row {
-      display: flex;
-      gap: 12px;
-      padding: 11px 0;
-      border-bottom: 1px solid #1a1a1a;
-    }
-
-    .day-row:last-of-type { border-bottom: none; }
-
-    .day-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      white-space: nowrap;
-      padding-top: 1px;
-      min-width: 36px;
-    }
-
-    .day-content {
-      font-size: 13px;
-      color: #aaaaaa;
-      line-height: 1.55;
-    }
-
-    .day-content strong { color: var(--text); font-weight: 600; }
-
-    /* WEATHER TIP */
-    .weather-tip {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-top: 14px;
-      padding: 11px 14px;
-      background: #111;
-      border: 1px solid #1e1e1e;
-      border-radius: 10px;
-    }
-
-    .weather-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
-
-    .weather-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-    /* CARD CHECKLIST */
-    .card-checklist {
-      margin-top: 14px;
-      border-top: 1px solid #1a1a1a;
-      padding-top: 14px;
-    }
-
-    .checklist-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
-
-    .check-item {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 5px 0;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .check-item input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 15px;
-      height: 15px;
-      border: 1.5px solid #333;
-      border-radius: 4px;
-      background: transparent;
-      cursor: pointer;
-      flex-shrink: 0;
-      position: relative;
-      transition: background 0.15s, border-color 0.15s;
-    }
-
-    .check-item input[type="checkbox"]:checked {
-      background: var(--tc, #ff6b35);
-      border-color: var(--tc, #ff6b35);
-    }
-
-    .check-item input[type="checkbox"]:checked::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230d0d0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-size: 10px 10px;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-
-    .check-text { font-size: 13px; color: #aaa; transition: color 0.15s; }
-    .check-item input[type="checkbox"]:checked ~ .check-text { color: #555; text-decoration: line-through; }
-
-    .urgent-dot { width: 6px; height: 6px; border-radius: 50%; background: #ef4444; flex-shrink: 0; }
-
-    .checklist-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .checklist-counter {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-      background: #1c1c1c;
-      border: 1px solid #2a2a2a;
-      border-radius: 100px;
-      padding: 2px 8px;
-    }
-
-    .check-item.pass-item { cursor: default; }
-
-    .check-item.pass-item input[type="checkbox"] {
-      background: rgba(74,222,128,0.12);
-      border-color: rgba(74,222,128,0.35);
-      cursor: default;
-    }
-
-    .check-item.pass-item input[type="checkbox"]:checked {
-      background: rgba(74,222,128,0.12);
-      border-color: rgba(74,222,128,0.35);
-    }
-
-    .check-item.pass-item input[type="checkbox"]:checked::after {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%234ade80' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    }
-
-    .check-item.pass-item .check-text {
-      color: rgba(74,222,128,0.55);
-      font-size: 12px;
-    }
-
-    /* PASS CALLOUT */
-    .pass-callout {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 64px;
-    }
-
-    .pass-icon { font-size: 28px; flex-shrink: 0; }
-
-    .pass-text { font-size: 14px; color: var(--muted); line-height: 1.5; }
-
-    .pass-text strong {
-      color: var(--text);
-      font-weight: 600;
+    body[data-theme="adventure"] {
+      background: #071220;
+      color: #e2d9c8;
+      font-family: 'Lato', sans-serif;
       font-size: 15px;
-      display: block;
-      margin-bottom: 2px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .savings-badge {
-      margin-left: auto;
-      flex-shrink: 0;
-      padding: 6px 14px;
-      background: rgba(74,222,128,0.1);
-      border: 1px solid rgba(74,222,128,0.2);
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--green);
-    }
-
-    @media (max-width: 640px) { .savings-badge { display: none; } }
-
-    /* BOOKING SECTION */
-    .booking-section { margin-bottom: 80px; }
-
-    .booking-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-    }
-
-    @media (max-width: 640px) { .booking-card { padding: 20px; } }
-
-    /* PROGRESS */
-    .progress-wrap { margin-bottom: 28px; }
-
-    .progress-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .progress-label { font-size: 13px; font-weight: 600; color: var(--muted); }
-    .progress-count { font-size: 13px; font-weight: 700; color: var(--text); }
-
-    .progress-track {
-      height: 4px;
-      background: #1c1c1c;
-      border-radius: 100px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--green));
-      border-radius: 100px;
-      transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    /* BOOKING COLS */
-    .booking-cols {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-    }
-
-    @media (max-width: 640px) {
-      .booking-cols { grid-template-columns: 1fr; gap: 24px; }
-    }
-
-    .booking-col-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .col-dot { width: 7px; height: 7px; border-radius: 50%; }
-    .col-dot.urgent { background: #ef4444; }
-    .col-dot.soon { background: #eab308; }
-
-    .booking-check-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 10px 0;
-      cursor: pointer;
-      user-select: none;
-      border-bottom: 1px solid #191919;
-    }
-
-    .booking-check-item:last-of-type { border-bottom: none; }
-
-    .booking-check-item input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border: 1.5px solid #333;
-      border-radius: 5px;
-      background: transparent;
-      cursor: pointer;
-      flex-shrink: 0;
-      position: relative;
-      transition: background 0.15s, border-color 0.15s;
-      margin-top: 1px;
-    }
-
-    .booking-check-item input[type="checkbox"]:checked {
-      background: var(--green);
-      border-color: var(--green);
-    }
-
-    .booking-check-item input[type="checkbox"]:checked::after {
+    /* Subtle grain overlay on body */
+    body[data-theme="adventure"]::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230d0d0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-size: 10px 10px;
-      background-repeat: no-repeat;
-      background-position: center;
+      position: fixed; inset: 0;
+      opacity: 0.045;
+      pointer-events: none;
+      z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    .booking-item-info { flex: 1; min-width: 0; }
+    /* — NAV */
+    [data-theme="adventure"] nav {
+      background: rgba(7,18,32,0.9);
+      border-bottom: 1px solid rgba(245,158,11,0.12);
+      backdrop-filter: blur(20px);
+    }
+    [data-theme="adventure"] .nav-logo {
+      font-family: 'Bebas Neue', sans-serif; font-size: 22px;
+      color: #e2d9c8; letter-spacing: 0.1em;
+    }
+    [data-theme="adventure"] .nav-logo em { color: #f59e0b; font-style: normal; }
+    [data-theme="adventure"] .nav-links { display: flex; gap: 24px; list-style: none; }
+    [data-theme="adventure"] .nav-links a {
+      color: #2e4460; text-decoration: none; font-size: 11px;
+      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.15s;
+    }
+    [data-theme="adventure"] .nav-links a:hover { color: #f59e0b; }
 
-    .booking-item-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      transition: color 0.15s;
-      margin-bottom: 2px;
+    /* — HERO */
+    [data-theme="adventure"] .hero {
+      padding: 72px 0 56px; text-align: center; position: relative; overflow: hidden;
+    }
+    [data-theme="adventure"] .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(245,158,11,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    [data-theme="adventure"] .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.18);
+      padding: 6px 16px;
+      font-size: 11px; font-weight: 700; color: #f59e0b;
+      letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 20px; border-radius: 2px;
+    }
+    [data-theme="adventure"] .hero-eyebrow .dot {
+      width: 5px; height: 5px; background: #f59e0b; border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    [data-theme="adventure"] .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 13vw, 148px);
+      font-weight: 400; letter-spacing: 0.06em; line-height: 0.88;
+      margin-bottom: 14px; color: #e2d9c8;
+    }
+    [data-theme="adventure"] .hero h1 em { font-style: normal; color: #f59e0b; }
+    [data-theme="adventure"] .hero-sub {
+      font-size: 12px; color: #2e4460; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 52px;
     }
 
-    .booking-check-item input[type="checkbox"]:checked ~ .booking-item-info .booking-item-name {
-      color: #444;
-      text-decoration: line-through;
+    /* — COUNTDOWN */
+    [data-theme="adventure"] .countdown-wrapper {
+      display: flex; align-items: stretch; justify-content: center; margin-bottom: 10px;
+    }
+    [data-theme="adventure"] .countdown-unit {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 16px 28px;
+      border: 1px solid rgba(245,158,11,0.13); border-right: none;
+      background: rgba(245,158,11,0.025);
+    }
+    [data-theme="adventure"] .countdown-unit:last-child { border-right: 1px solid rgba(245,158,11,0.13); }
+    [data-theme="adventure"] .countdown-number {
+      font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 8vw, 80px);
+      color: #f59e0b; line-height: 1; letter-spacing: 0.06em;
+    }
+    [data-theme="adventure"] .countdown-label {
+      font-size: 9px; font-weight: 700; color: #1e3252;
+      letter-spacing: 0.22em; text-transform: uppercase; margin-top: 4px;
+    }
+    [data-theme="adventure"] .countdown-trip-label {
+      font-size: 12px; color: #2e4460; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 36px;
+    }
+    [data-theme="adventure"] .countdown-trip-label strong { color: #f59e0b; }
+
+    /* — TIMELINE */
+    [data-theme="adventure"] .timeline {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px;
+    }
+    [data-theme="adventure"] .timeline-item {
+      display: flex; align-items: center; gap: 8px; padding: 7px 14px;
+      background: rgba(245,158,11,0.04); border: 1px solid rgba(245,158,11,0.12);
+    }
+    [data-theme="adventure"] .timeline-dot {
+      width: 6px; height: 6px; transform: rotate(45deg); flex-shrink: 0; border-radius: 1px;
+    }
+    [data-theme="adventure"] .timeline-name {
+      font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 0.1em; color: #e2d9c8;
+    }
+    [data-theme="adventure"] .timeline-date {
+      font-size: 10px; color: #2e4460; font-weight: 700; letter-spacing: 0.05em;
+    }
+    [data-theme="adventure"] .timeline-connector { display: none; }
+
+    /* — STATS */
+    [data-theme="adventure"] .stats-section {
+      padding: 36px 0;
+      border-top: 1px solid rgba(245,158,11,0.08); border-bottom: 1px solid rgba(245,158,11,0.08);
+      margin-bottom: 56px;
+    }
+    [data-theme="adventure"] .stats-grid {
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+    }
+    [data-theme="adventure"] .stat {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 18px 36px;
+      background: rgba(245,158,11,0.03); border: 1px solid rgba(245,158,11,0.1);
+    }
+    [data-theme="adventure"] .stat-value {
+      font-family: 'Bebas Neue', sans-serif; font-size: 56px; color: #f59e0b;
+      line-height: 1; letter-spacing: 0.06em; margin-bottom: 2px;
+    }
+    [data-theme="adventure"] .stat-label {
+      font-size: 9px; font-weight: 700; color: #1e3252;
+      letter-spacing: 0.22em; text-transform: uppercase;
     }
 
-    .booking-item-sub { font-size: 12px; color: #555; }
-
-    .booking-note {
-      margin-top: 16px;
-      padding: 12px 14px;
-      background: rgba(234,179,8,0.06);
-      border: 1px solid rgba(234,179,8,0.15);
-      border-radius: 8px;
-      font-size: 13px;
-      color: #666;
+    /* — SECTION HEADER */
+    [data-theme="adventure"] .section-header { margin-bottom: 24px; }
+    [data-theme="adventure"] .section-header h2 {
+      font-family: 'Bebas Neue', sans-serif; font-size: 44px;
+      letter-spacing: 0.1em; color: #e2d9c8; line-height: 1;
+    }
+    [data-theme="adventure"] .section-header p {
+      color: #2e4460; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
     }
 
-    .booking-note strong { color: #eab308; font-weight: 600; }
+    /* — TRIPS GRID */
+    [data-theme="adventure"] .trips-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 40px;
+    }
+    @media (max-width: 860px) { [data-theme="adventure"] .trips-grid { grid-template-columns: 1fr; } }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
-      text-align: center;
+    /* — TRIP CARD */
+    [data-theme="adventure"] .trip-card {
+      background: #0c1d35; border: 1px solid rgba(245,158,11,0.1);
+      border-radius: 0; overflow: hidden; position: relative; transition: border-color 0.2s;
+    }
+    /* Per-card grain */
+    [data-theme="adventure"] .trip-card::before {
+      content: ''; position: absolute; inset: 0; opacity: 0.025; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    [data-theme="adventure"] .trip-card:hover { border-color: rgba(245,158,11,0.28); }
+    [data-theme="adventure"] .trip-card-top-bar { height: 3px; background: #f59e0b !important; }
+    [data-theme="adventure"] .card-body { padding: 18px 22px; }
+    [data-theme="adventure"] .card-top {
+      display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px;
+    }
+    [data-theme="adventure"] .card-park { display: flex; align-items: center; gap: 8px; }
+    [data-theme="adventure"] .card-emoji { font-size: 18px; }
+    [data-theme="adventure"] .card-park-name {
+      font-family: 'Bebas Neue', sans-serif; font-size: 26px;
+      letter-spacing: 0.07em; color: #e2d9c8; line-height: 1;
+    }
+    [data-theme="adventure"] .days-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      background: rgba(245,158,11,0.08) !important; color: #f59e0b !important;
+      border: 1px solid rgba(245,158,11,0.18) !important; padding: 3px 8px; border-radius: 2px;
+    }
+    [data-theme="adventure"] .card-meta {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;
+    }
+    [data-theme="adventure"] .pill {
+      font-size: 10px; font-weight: 700; color: #1e3252; padding: 3px 8px;
+      background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.04);
+      letter-spacing: 0.06em; text-transform: uppercase; border-radius: 2px;
+    }
+    [data-theme="adventure"] .pill::after { content: ''; }
+
+    [data-theme="adventure"] .itinerary-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: transparent; border: none;
+      border-top: 1px solid rgba(245,158,11,0.08); padding: 9px 0;
+      cursor: pointer; color: #1e3252;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      font-family: 'Lato', sans-serif; transition: color 0.15s;
+    }
+    [data-theme="adventure"] .itinerary-toggle:hover { color: #f59e0b; }
+    [data-theme="adventure"] .toggle-icon { transition: transform 0.2s; }
+    [data-theme="adventure"] .itinerary-body { display: none; padding: 6px 0; }
+    [data-theme="adventure"] .itinerary-body.open { display: block; }
+    [data-theme="adventure"] .day-row {
+      display: flex; gap: 14px; padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.025);
+    }
+    [data-theme="adventure"] .day-row:last-of-type { border-bottom: none; }
+    [data-theme="adventure"] .day-label {
+      font-family: 'Bebas Neue', sans-serif; font-size: 17px;
+      width: 34px; flex-shrink: 0; letter-spacing: 0.06em; line-height: 1.2; padding-top: 2px;
+    }
+    [data-theme="adventure"] .day-content { font-size: 12px; color: #2e4460; line-height: 1.55; }
+    [data-theme="adventure"] .day-content strong { color: #8fa3b8; font-weight: 700; }
+    [data-theme="adventure"] .weather-tip {
+      display: flex; align-items: flex-start; gap: 8px; margin-top: 8px;
+      padding: 8px 10px;
+      background: rgba(245,158,11,0.03); border: 1px solid rgba(245,158,11,0.08);
+      font-size: 11px; color: #2e4460; letter-spacing: 0.02em;
     }
 
-    footer p { font-size: 13px; color: #444; }
-    footer p span { color: var(--accent); }
+    /* — CHECKLIST */
+    [data-theme="adventure"] .card-checklist { padding-top: 12px; }
+    [data-theme="adventure"] .checklist-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+    }
+    [data-theme="adventure"] .checklist-label {
+      font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: #e2d9c8; letter-spacing: 0.1em;
+    }
+    [data-theme="adventure"] .checklist-counter {
+      font-size: 10px; font-weight: 700; color: #1e3252; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    [data-theme="adventure"] .check-item {
+      display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.025);
+    }
+    [data-theme="adventure"] .check-item:last-child { border-bottom: none; }
+    [data-theme="adventure"] .check-item input[type="checkbox"] {
+      appearance: none; -webkit-appearance: none;
+      width: 15px; height: 15px; border: 1.5px solid rgba(245,158,11,0.22);
+      border-radius: 0; background: transparent; cursor: pointer;
+      flex-shrink: 0; position: relative; transition: all 0.15s; margin-top: 1px;
+    }
+    [data-theme="adventure"] .check-item input[type="checkbox"]:checked {
+      background: #f59e0b; border-color: #f59e0b;
+    }
+    [data-theme="adventure"] .check-item input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23071220' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 9px; background-repeat: no-repeat; background-position: center;
+    }
+    [data-theme="adventure"] .check-text { font-size: 12px; color: #2e4460; line-height: 1.4; }
+    [data-theme="adventure"] .check-item input:checked ~ .check-text { color: #1e3252; text-decoration: line-through; }
+    [data-theme="adventure"] .urgent-dot {
+      width: 5px; height: 5px; background: #f59e0b; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
+    }
+    [data-theme="adventure"] .pass-item .check-text { color: #1e3252; }
 
-    /* SCROLLBAR */
+    /* — PASS CALLOUT */
+    [data-theme="adventure"] .pass-callout {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px;
+      background: rgba(245,158,11,0.03); border: 1px solid rgba(245,158,11,0.12);
+      border-left: 3px solid #f59e0b; margin-bottom: 40px;
+    }
+    [data-theme="adventure"] .pass-icon { font-size: 18px; }
+    [data-theme="adventure"] .pass-text { flex: 1; font-size: 12px; color: #2e4460; }
+    [data-theme="adventure"] .pass-text strong {
+      font-family: 'Bebas Neue', sans-serif; color: #e2d9c8;
+      font-size: 17px; letter-spacing: 0.1em; display: block; margin-bottom: 1px;
+    }
+    [data-theme="adventure"] .savings-badge {
+      font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: #f59e0b; letter-spacing: 0.08em;
+    }
+
+    /* — FOOTER */
+    [data-theme="adventure"] footer {
+      border-top: 1px solid rgba(245,158,11,0.08); padding: 22px 0; text-align: center;
+    }
+    [data-theme="adventure"] footer p {
+      font-size: 11px; color: #1e3252; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    [data-theme="adventure"] footer p span { color: #f59e0b; }
+
+    /* ────────────────────────────── */
+    /*  SCROLLBARS                    */
+    /* ────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #333; }
+    [data-theme="dark-pro"] ::-webkit-scrollbar-track { background: #000; }
+    [data-theme="dark-pro"] ::-webkit-scrollbar-thumb { background: #111; border-radius: 3px; }
+    [data-theme="magazine"] ::-webkit-scrollbar-track { background: #f7f6f2; }
+    [data-theme="magazine"] ::-webkit-scrollbar-thumb { background: #ddd9d2; border-radius: 3px; }
+    [data-theme="adventure"] ::-webkit-scrollbar-track { background: #071220; }
+    [data-theme="adventure"] ::-webkit-scrollbar-thumb { background: #0c1d35; border-radius: 3px; }
   </style>
 </head>
-<body>
+<body data-theme="dark-pro">
 
-  <!-- NAV -->
+  <!-- ── STYLE PICKER ── -->
+  <div class="style-picker">
+    <button class="style-picker-btn active" data-theme-btn="dark-pro">Dark Pro</button>
+    <button class="style-picker-btn" data-theme-btn="magazine">Magazine</button>
+    <button class="style-picker-btn" data-theme-btn="adventure">Adventure</button>
+  </div>
+
+  <!-- ── NAV ── -->
   <nav>
-    <div class="inner">
-      <div class="nav-logo">Great<span>Escape</span> <span style="color:#333;font-weight:400">·</span> 2026</div>
+    <div class="nav-inner">
+      <div class="nav-logo">Great<em>Escape</em> · 2026</div>
       <ul class="nav-links">
         <li><a href="#trips">Trips</a></li>
         <li><a href="#booking">Booking</a></li>
@@ -800,14 +996,14 @@
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- ── HERO ── -->
   <section class="hero">
     <div class="wrap">
       <div class="hero-eyebrow">
         <div class="dot"></div>
-        National Parks Road Trip
+        National Parks Road Trip 2026
       </div>
-      <h1>The <span class="gradient">Great Escape</span></h1>
+      <h1>The <em>Great Escape</em></h1>
       <p class="hero-sub">Paolo &amp; Brooke &nbsp;·&nbsp; National Parks 2026</p>
 
       <div class="countdown-wrapper">
@@ -828,10 +1024,10 @@
           <div class="countdown-label">Secs</div>
         </div>
       </div>
-      <div class="countdown-trip-label">Until <strong>🌵 Zion &amp; Bryce Canyon</strong> — April 10, 2026</div>
+      <div class="countdown-trip-label">Until <strong>Zion &amp; Bryce Canyon</strong> — April 10, 2026</div>
 
       <div class="timeline">
-        <div class="timeline-item" style="--tc:#ff6b35">
+        <div class="timeline-item">
           <div class="timeline-dot" style="background:#ff6b35"></div>
           <div>
             <div class="timeline-name">Zion + Bryce</div>
@@ -839,7 +1035,7 @@
           </div>
         </div>
         <div class="timeline-connector"></div>
-        <div class="timeline-item" style="--tc:#4ade80">
+        <div class="timeline-item">
           <div class="timeline-dot" style="background:#4ade80"></div>
           <div>
             <div class="timeline-name">Yosemite</div>
@@ -847,7 +1043,7 @@
           </div>
         </div>
         <div class="timeline-connector"></div>
-        <div class="timeline-item" style="--tc:#fbbf24">
+        <div class="timeline-item">
           <div class="timeline-dot" style="background:#fbbf24"></div>
           <div>
             <div class="timeline-name">Grand Canyon</div>
@@ -855,7 +1051,7 @@
           </div>
         </div>
         <div class="timeline-connector"></div>
-        <div class="timeline-item" style="--tc:#60a5fa">
+        <div class="timeline-item">
           <div class="timeline-dot" style="background:#60a5fa"></div>
           <div>
             <div class="timeline-name">Yellowstone + Teton</div>
@@ -866,23 +1062,23 @@
     </div>
   </section>
 
-  <!-- STATS -->
-  <div class="wrap">
-    <div class="stats">
-      <div class="stats-inner">
-        <div class="stat-box">
+  <!-- ── STATS ── -->
+  <div class="stats-section">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat">
           <div class="stat-value">4</div>
           <div class="stat-label">Parks</div>
         </div>
-        <div class="stat-box">
+        <div class="stat">
           <div class="stat-value">4</div>
           <div class="stat-label">States</div>
         </div>
-        <div class="stat-box">
+        <div class="stat">
           <div class="stat-value">13</div>
           <div class="stat-label">Days</div>
         </div>
-        <div class="stat-box">
+        <div class="stat">
           <div class="stat-value">2</div>
           <div class="stat-label">People</div>
         </div>
@@ -890,501 +1086,400 @@
     </div>
   </div>
 
-  <!-- TRIPS -->
-  <div class="wrap" id="trips">
-    <div class="section-header">
-      <h2>Trip Itineraries</h2>
-      <p>Click any card to expand the day-by-day plan</p>
-    </div>
-
-    <div class="trips-grid">
-
-      <!-- ZION -->
-      <div class="trip-card">
-        <div class="trip-card-top-bar" style="background:#ff6b35"></div>
-        <div class="card-body">
-          <div class="card-top">
-            <div class="card-park">
-              <span class="card-emoji">🌵</span>
-              <div class="card-park-name">Zion + Bryce Canyon</div>
-            </div>
-            <div class="days-badge" id="badge-zion" style="background:rgba(255,107,53,0.12);color:#ff6b35;border:1px solid rgba(255,107,53,0.25)">— days</div>
-          </div>
-          <div class="card-meta">
-            <span class="pill">📅 Apr 10–12, 2026</span>
-            <span class="pill">🚗 Drive 4.5hrs from SD</span>
-            <span class="pill">Utah</span>
-          </div>
-
-          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
-            Day-by-day plan
-            <span class="toggle-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-            </span>
-          </button>
-          <div class="itinerary-body">
-            <div class="day-row">
-              <div class="day-label" style="color:#ff6b35">Fri</div>
-              <div class="day-content">Leave SD <strong>2pm</strong> → Springdale <strong>6:30pm</strong> → Dinner at <strong>Bit &amp; Spur</strong> → Cable Mountain Lodge</div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#ff6b35">Sat</div>
-              <div class="day-content"><strong>7am</strong> Angels Landing or The Narrows → Emerald Pools → <strong>Canyon Junction</strong> sunset</div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#ff6b35">Sun</div>
-              <div class="day-content">Bryce Canyon (1hr) → <strong>Navajo Loop + Queens Garden</strong> → Sunset Point → drive home</div>
-            </div>
-            <div class="weather-tip">
-              <span class="weather-icon">🌤️</span>
-              <span class="weather-text">65–75°F, perfect hiking weather. Layers for morning.</span>
-            </div>
-          </div>
-          <div class="card-checklist">
-            <div class="checklist-header">
-              <div class="checklist-label">Booking Checklist</div>
-              <div class="checklist-counter" id="counter-zion">0/4 booked</div>
-            </div>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('zion')" data-id="card-zion-angels" />
-              <div class="urgent-dot"></div>
-              <span class="check-text">Angels Landing permit — recreation.gov</span>
-            </label>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('zion')" data-id="card-zion-hotel" />
-              <span class="check-text">Hotel in Springdale (Cable Mountain Lodge or similar)</span>
-            </label>
-            <label class="check-item pass-item">
-              <input type="checkbox" checked disabled />
-              <span class="check-text">Bryce Canyon entrance ✅ covered by pass</span>
-            </label>
-            <label class="check-item pass-item">
-              <input type="checkbox" checked disabled />
-              <span class="check-text">Zion entrance ✅ covered by pass</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- YOSEMITE -->
-      <div class="trip-card">
-        <div class="trip-card-top-bar" style="background:#4ade80"></div>
-        <div class="card-body">
-          <div class="card-top">
-            <div class="card-park">
-              <span class="card-emoji">🏔️</span>
-              <div class="card-park-name">Yosemite</div>
-            </div>
-            <div class="days-badge" id="badge-yosemite" style="background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.25)">— days</div>
-          </div>
-          <div class="card-meta">
-            <span class="pill">📅 May 8–10, 2026</span>
-            <span class="pill">🚗 Drive 6.5hrs from SD</span>
-            <span class="pill">California</span>
-          </div>
-
-          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
-            Day-by-day plan
-            <span class="toggle-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-            </span>
-          </button>
-          <div class="itinerary-body">
-            <div class="day-row">
-              <div class="day-label" style="color:#4ade80">Fri</div>
-              <div class="day-content">Leave <strong>8am</strong> → arrive 2:30pm → Tunnel View → Bridalveil Fall → <strong>Valley Lodge dinner</strong></div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#4ade80">Sat</div>
-              <div class="day-content"><strong>6am</strong> sunrise Valley View → Mist Trail to <strong>Vernal + Nevada Falls</strong> → Mirror Lake</div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#4ade80">Sun</div>
-              <div class="day-content"><strong>Mariposa Grove</strong> sequoias → drive home</div>
-            </div>
-            <div class="weather-tip">
-              <span class="weather-icon">🌈</span>
-              <span class="weather-text">60–75°F, peak waterfall season. Rain jacket recommended.</span>
-            </div>
-          </div>
-          <div class="card-checklist">
-            <div class="checklist-header">
-              <div class="checklist-label">Booking Checklist</div>
-              <div class="checklist-counter" id="counter-yosemite">0/4 booked</div>
-            </div>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-reservation" />
-              <div class="urgent-dot"></div>
-              <span class="check-text">Park entrance reservation — recreation.gov</span>
-            </label>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-lodge" />
-              <div class="urgent-dot"></div>
-              <span class="check-text">Yosemite Valley Lodge</span>
-            </label>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-halfdome" />
-              <span class="check-text">Half Dome permit — apply 2 days before (recreation.gov)</span>
-            </label>
-            <label class="check-item pass-item">
-              <input type="checkbox" checked disabled />
-              <span class="check-text">Yosemite entrance ✅ covered by pass</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- GRAND CANYON -->
-      <div class="trip-card">
-        <div class="trip-card-top-bar" style="background:#fbbf24"></div>
-        <div class="card-body">
-          <div class="card-top">
-            <div class="card-park">
-              <span class="card-emoji">🪨</span>
-              <div class="card-park-name">Grand Canyon</div>
-            </div>
-            <div class="days-badge" id="badge-canyon" style="background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)">— days</div>
-          </div>
-          <div class="card-meta">
-            <span class="pill">📅 May 29–31, 2026</span>
-            <span class="pill">🚗 Drive 5hrs from SD</span>
-            <span class="pill">Arizona</span>
-          </div>
-
-          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
-            Day-by-day plan
-            <span class="toggle-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-            </span>
-          </button>
-          <div class="itinerary-body">
-            <div class="day-row">
-              <div class="day-label" style="color:#fbbf24">Fri</div>
-              <div class="day-content">Leave <strong>10am</strong> → arrive 3pm → <strong>Rim Trail</strong> sunset → El Tovar dinner</div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#fbbf24">Sat</div>
-              <div class="day-content"><strong>5:30am</strong> South Kaibab down + Bright Angel up → Desert View Watchtower → <strong>Mather Point sunset</strong></div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#fbbf24">Sun</div>
-              <div class="day-content">Morning hike → drive home <strong>via Flagstaff</strong></div>
-            </div>
-            <div class="weather-tip">
-              <span class="weather-icon">☀️</span>
-              <span class="weather-text">75–85°F on rim, much hotter below. Start at sunrise.</span>
-            </div>
-          </div>
-          <div class="card-checklist">
-            <div class="checklist-header">
-              <div class="checklist-label">Booking Checklist</div>
-              <div class="checklist-counter" id="counter-canyon">0/3 booked</div>
-            </div>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('canyon')" data-id="card-gc-eltovar" />
-              <span class="check-text">El Tovar dinner reservation — grandcanyonlodges.com</span>
-            </label>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('canyon')" data-id="card-gc-lodge" />
-              <span class="check-text">Bright Angel Lodge or Maswik Lodge</span>
-            </label>
-            <label class="check-item pass-item">
-              <input type="checkbox" checked disabled />
-              <span class="check-text">Grand Canyon entrance ✅ covered by pass</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- YELLOWSTONE -->
-      <div class="trip-card">
-        <div class="trip-card-top-bar" style="background:#60a5fa"></div>
-        <div class="card-body">
-          <div class="card-top">
-            <div class="card-park">
-              <span class="card-emoji">🌋</span>
-              <div class="card-park-name">Yellowstone + Grand Teton</div>
-            </div>
-            <div class="days-badge" id="badge-yellowstone" style="background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25)">— days</div>
-          </div>
-          <div class="card-meta">
-            <span class="pill">📅 Jul 10–14, 2026</span>
-            <span class="pill">✈️ Fly SAN → JAC</span>
-            <span class="pill">Wyoming</span>
-          </div>
-
-          <button class="itinerary-toggle" onclick="toggleItinerary(this)">
-            Day-by-day plan
-            <span class="toggle-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-            </span>
-          </button>
-          <div class="itinerary-body">
-            <div class="day-row">
-              <div class="day-label" style="color:#60a5fa">Fri</div>
-              <div class="day-content">Fly in → <strong>Jackson town dinner</strong></div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#60a5fa">Sat</div>
-              <div class="day-content"><strong>Jenny Lake</strong> → Hidden Falls → Snake River Overlook → <strong>Oxbow Bend</strong> sunset</div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#60a5fa">Sun</div>
-              <div class="day-content"><strong>Grand Prismatic Spring</strong> → Old Faithful → Firehole River swim</div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#60a5fa">Mon</div>
-              <div class="day-content">Grand Canyon of Yellowstone → <strong>Artist Point</strong> → Lamar Valley wildlife → Mammoth Hot Springs</div>
-            </div>
-            <div class="day-row">
-              <div class="day-label" style="color:#60a5fa">Tue</div>
-              <div class="day-content">Morning wildlife drive → <strong>fly home</strong></div>
-            </div>
-            <div class="weather-tip">
-              <span class="weather-icon">⛈️</span>
-              <span class="weather-text">70–85°F, afternoon thunderstorms common. Layers for mornings.</span>
-            </div>
-          </div>
-          <div class="card-checklist">
-            <div class="checklist-header">
-              <div class="checklist-label">Booking Checklist</div>
-              <div class="checklist-counter" id="counter-yellowstone">0/5 booked</div>
-            </div>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-inn" />
-              <div class="urgent-dot"></div>
-              <span class="check-text">Old Faithful Inn or Canyon Lodge</span>
-            </label>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-flights" />
-              <div class="urgent-dot"></div>
-              <span class="check-text">Flights SAN → JAC (Jackson Hole Airport)</span>
-            </label>
-            <label class="check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-rental" />
-              <span class="check-text">Rental car at JAC</span>
-            </label>
-            <label class="check-item pass-item">
-              <input type="checkbox" checked disabled />
-              <span class="check-text">Yellowstone entrance ✅ covered by pass</span>
-            </label>
-            <label class="check-item pass-item">
-              <input type="checkbox" checked disabled />
-              <span class="check-text">Grand Teton entrance ✅ covered by pass</span>
-            </label>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /trips-grid -->
-
-    <!-- PASS CALLOUT -->
-    <div class="pass-callout">
-      <div class="pass-icon">🎫</div>
-      <div class="pass-text">
-        <strong>America the Beautiful Pass</strong>
-        Entrance fees covered at all 4 parks — no need to book entry tickets.
-      </div>
-      <div class="savings-badge">~$120 saved</div>
-    </div>
-
-    <!-- BOOKING SECTION -->
-    <div class="booking-section" id="booking">
+  <!-- ── TRIPS ── -->
+  <section id="trips">
+    <div class="wrap">
       <div class="section-header">
-        <h2>Booking Checklist</h2>
-        <p>Track what's confirmed — saved automatically to your browser</p>
+        <h2>Trip Itineraries</h2>
+        <p>Click any card to expand the day-by-day plan</p>
       </div>
-      <div class="booking-card">
-        <div class="progress-wrap">
-          <div class="progress-top">
-            <span class="progress-label">Overall progress</span>
-            <span class="progress-count" id="progress-count">0 of 8 booked</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+
+      <div class="trips-grid">
+
+        <!-- ZION -->
+        <div class="trip-card">
+          <div class="trip-card-top-bar" style="background:#ff6b35"></div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="card-park">
+                <span class="card-emoji">🌵</span>
+                <div class="card-park-name">Zion + Bryce Canyon</div>
+              </div>
+              <div class="days-badge" id="badge-zion" style="background:rgba(255,107,53,0.12);color:#ff6b35;border:1px solid rgba(255,107,53,0.25)">— days</div>
+            </div>
+            <div class="card-meta">
+              <span class="pill">📅 Apr 10–12, 2026</span>
+              <span class="pill">🚗 Drive 4.5hrs from SD</span>
+              <span class="pill">Utah</span>
+            </div>
+            <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+              Day-by-day plan
+              <span class="toggle-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+            </button>
+            <div class="itinerary-body">
+              <div class="day-row">
+                <div class="day-label" style="color:#ff6b35">Fri</div>
+                <div class="day-content">Leave SD <strong>2pm</strong> → Springdale <strong>6:30pm</strong> → Dinner at <strong>Bit &amp; Spur</strong> → Cable Mountain Lodge</div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#ff6b35">Sat</div>
+                <div class="day-content"><strong>7am</strong> Angels Landing or The Narrows → Emerald Pools → <strong>Canyon Junction</strong> sunset</div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#ff6b35">Sun</div>
+                <div class="day-content">Bryce Canyon (1hr) → <strong>Navajo Loop + Queens Garden</strong> → Sunset Point → drive home</div>
+              </div>
+              <div class="weather-tip">
+                <span>🌤️</span>
+                <span>65–75°F, perfect hiking weather. Layers for morning.</span>
+              </div>
+            </div>
+            <div class="card-checklist" id="booking">
+              <div class="checklist-header">
+                <div class="checklist-label">Booking Checklist</div>
+                <div class="checklist-counter" id="counter-zion">0/4 booked</div>
+              </div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('zion')" data-id="card-zion-angels" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Angels Landing permit — recreation.gov</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('zion')" data-id="card-zion-hotel" />
+                <span class="check-text">Hotel in Springdale (Cable Mountain Lodge or similar)</span>
+              </label>
+              <label class="check-item pass-item">
+                <input type="checkbox" checked disabled />
+                <span class="check-text">Bryce Canyon entrance ✅ covered by pass</span>
+              </label>
+              <label class="check-item pass-item">
+                <input type="checkbox" checked disabled />
+                <span class="check-text">Zion entrance ✅ covered by pass</span>
+              </label>
+            </div>
           </div>
         </div>
 
-        <div class="booking-cols">
-          <div>
-            <div class="booking-col-title">
-              <div class="col-dot urgent"></div>
-              Urgent — Book Now
+        <!-- YOSEMITE -->
+        <div class="trip-card">
+          <div class="trip-card-top-bar" style="background:#4ade80"></div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="card-park">
+                <span class="card-emoji">🏔️</span>
+                <div class="card-park-name">Yosemite</div>
+              </div>
+              <div class="days-badge" id="badge-yosemite" style="background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.25)">— days</div>
             </div>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-angels" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">Angels Landing Permit</div>
-                <div class="booking-item-sub">recreation.gov · Zion · Apr 11</div>
-              </div>
-            </label>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-yos-res" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">Yosemite Entrance Reservation</div>
-                <div class="booking-item-sub">recreation.gov · May 8</div>
-              </div>
-            </label>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-valley-lodge" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">Yosemite Valley Lodge</div>
-                <div class="booking-item-sub">May 8–10 · 2 nights</div>
-              </div>
-            </label>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-old-faithful" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">Old Faithful Inn</div>
-                <div class="booking-item-sub">Jul 10–14 · 4 nights</div>
-              </div>
-            </label>
-          </div>
-
-          <div>
-            <div class="booking-col-title">
-              <div class="col-dot soon"></div>
-              Soon
+            <div class="card-meta">
+              <span class="pill">📅 May 8–10, 2026</span>
+              <span class="pill">🚗 Drive 6.5hrs from SD</span>
+              <span class="pill">California</span>
             </div>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-flights" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">Flights SAN ↔ JAC</div>
-                <div class="booking-item-sub">Jackson Hole · Jul 10 + Jul 14</div>
+            <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+              Day-by-day plan
+              <span class="toggle-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+            </button>
+            <div class="itinerary-body">
+              <div class="day-row">
+                <div class="day-label" style="color:#4ade80">Fri</div>
+                <div class="day-content">Leave <strong>8am</strong> → arrive 2:30pm → Tunnel View → Bridalveil Fall → <strong>Valley Lodge dinner</strong></div>
               </div>
-            </label>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-gc-lodge" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">Grand Canyon Lodge</div>
-                <div class="booking-item-sub">Bright Angel · May 29–31</div>
+              <div class="day-row">
+                <div class="day-label" style="color:#4ade80">Sat</div>
+                <div class="day-content"><strong>6am</strong> sunrise Valley View → Mist Trail to <strong>Vernal + Nevada Falls</strong> → Mirror Lake</div>
               </div>
-            </label>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-eltovar" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">El Tovar Dinner Reservation</div>
-                <div class="booking-item-sub">Grand Canyon · May 29</div>
+              <div class="day-row">
+                <div class="day-label" style="color:#4ade80">Sun</div>
+                <div class="day-content"><strong>Mariposa Grove</strong> sequoias → drive home</div>
               </div>
-            </label>
-            <label class="booking-check-item">
-              <input type="checkbox" onchange="saveCheck(this);updateProgress()" data-id="b-zion-hotel" />
-              <div class="booking-item-info">
-                <div class="booking-item-name">Springdale Hotel (Zion)</div>
-                <div class="booking-item-sub">Apr 10–12 · 2 nights</div>
+              <div class="weather-tip">
+                <span>🌈</span>
+                <span>60–75°F, peak waterfall season. Rain jacket recommended.</span>
               </div>
-            </label>
-            <div class="booking-note">
-              <strong>Half Dome Permit:</strong> Apply via lottery 2 days before May 9 — check recreation.gov
+            </div>
+            <div class="card-checklist">
+              <div class="checklist-header">
+                <div class="checklist-label">Booking Checklist</div>
+                <div class="checklist-counter" id="counter-yosemite">0/4 booked</div>
+              </div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-reservation" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Park entrance reservation — recreation.gov</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-lodge" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Yosemite Valley Lodge</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yosemite')" data-id="card-yos-halfdome" />
+                <span class="check-text">Half Dome permit — apply 2 days before (recreation.gov)</span>
+              </label>
+              <label class="check-item pass-item">
+                <input type="checkbox" checked disabled />
+                <span class="check-text">Yosemite entrance ✅ covered by pass</span>
+              </label>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- FOOTER -->
+        <!-- GRAND CANYON -->
+        <div class="trip-card">
+          <div class="trip-card-top-bar" style="background:#fbbf24"></div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="card-park">
+                <span class="card-emoji">🪨</span>
+                <div class="card-park-name">Grand Canyon</div>
+              </div>
+              <div class="days-badge" id="badge-canyon" style="background:rgba(251,191,36,0.12);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)">— days</div>
+            </div>
+            <div class="card-meta">
+              <span class="pill">📅 May 29–31, 2026</span>
+              <span class="pill">🚗 Drive 5hrs from SD</span>
+              <span class="pill">Arizona</span>
+            </div>
+            <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+              Day-by-day plan
+              <span class="toggle-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+            </button>
+            <div class="itinerary-body">
+              <div class="day-row">
+                <div class="day-label" style="color:#fbbf24">Fri</div>
+                <div class="day-content">Leave <strong>10am</strong> → arrive 3pm → <strong>Rim Trail</strong> sunset → El Tovar dinner</div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#fbbf24">Sat</div>
+                <div class="day-content"><strong>5:30am</strong> South Kaibab down + Bright Angel up → Desert View Watchtower → <strong>Mather Point sunset</strong></div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#fbbf24">Sun</div>
+                <div class="day-content">Morning hike → drive home <strong>via Flagstaff</strong></div>
+              </div>
+              <div class="weather-tip">
+                <span>☀️</span>
+                <span>75–85°F on rim, much hotter below. Start at sunrise.</span>
+              </div>
+            </div>
+            <div class="card-checklist">
+              <div class="checklist-header">
+                <div class="checklist-label">Booking Checklist</div>
+                <div class="checklist-counter" id="counter-canyon">0/3 booked</div>
+              </div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('canyon')" data-id="card-gc-eltovar" />
+                <span class="check-text">El Tovar dinner reservation — grandcanyonlodges.com</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('canyon')" data-id="card-gc-lodge" />
+                <span class="check-text">Bright Angel Lodge or Maswik Lodge</span>
+              </label>
+              <label class="check-item pass-item">
+                <input type="checkbox" checked disabled />
+                <span class="check-text">Grand Canyon entrance ✅ covered by pass</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- YELLOWSTONE -->
+        <div class="trip-card">
+          <div class="trip-card-top-bar" style="background:#60a5fa"></div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="card-park">
+                <span class="card-emoji">🌋</span>
+                <div class="card-park-name">Yellowstone + Grand Teton</div>
+              </div>
+              <div class="days-badge" id="badge-yellowstone" style="background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25)">— days</div>
+            </div>
+            <div class="card-meta">
+              <span class="pill">📅 Jul 10–14, 2026</span>
+              <span class="pill">✈️ Fly SAN → JAC</span>
+              <span class="pill">Wyoming</span>
+            </div>
+            <button class="itinerary-toggle" onclick="toggleItinerary(this)">
+              Day-by-day plan
+              <span class="toggle-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+            </button>
+            <div class="itinerary-body">
+              <div class="day-row">
+                <div class="day-label" style="color:#60a5fa">Fri</div>
+                <div class="day-content">Fly in → <strong>Jackson town dinner</strong></div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#60a5fa">Sat</div>
+                <div class="day-content"><strong>Jenny Lake</strong> → Hidden Falls → Snake River Overlook → <strong>Oxbow Bend</strong> sunset</div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#60a5fa">Sun</div>
+                <div class="day-content"><strong>Grand Prismatic Spring</strong> → Old Faithful → Firehole River swim</div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#60a5fa">Mon</div>
+                <div class="day-content">Grand Canyon of Yellowstone → <strong>Artist Point</strong> → Lamar Valley wildlife → Mammoth Hot Springs</div>
+              </div>
+              <div class="day-row">
+                <div class="day-label" style="color:#60a5fa">Tue</div>
+                <div class="day-content">Morning wildlife drive → <strong>fly home</strong></div>
+              </div>
+              <div class="weather-tip">
+                <span>⛈️</span>
+                <span>70–85°F, afternoon thunderstorms common. Layers for mornings.</span>
+              </div>
+            </div>
+            <div class="card-checklist">
+              <div class="checklist-header">
+                <div class="checklist-label">Booking Checklist</div>
+                <div class="checklist-counter" id="counter-yellowstone">0/5 booked</div>
+              </div>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-inn" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Old Faithful Inn or Canyon Lodge</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-flights" />
+                <div class="urgent-dot"></div>
+                <span class="check-text">Flights SAN → JAC (Jackson Hole Airport)</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" onchange="saveCheck(this);updateCardCounter('yellowstone')" data-id="card-ys-rental" />
+                <span class="check-text">Rental car at JAC</span>
+              </label>
+              <label class="check-item pass-item">
+                <input type="checkbox" checked disabled />
+                <span class="check-text">Yellowstone entrance ✅ covered by pass</span>
+              </label>
+              <label class="check-item pass-item">
+                <input type="checkbox" checked disabled />
+                <span class="check-text">Grand Teton entrance ✅ covered by pass</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /trips-grid -->
+
+      <!-- PASS CALLOUT -->
+      <div class="pass-callout">
+        <div class="pass-icon">🎫</div>
+        <div class="pass-text">
+          <strong>America the Beautiful Pass</strong>
+          Entrance fees covered at all 4 parks — no need to book entry tickets.
+        </div>
+        <div class="savings-badge">~$120 saved</div>
+      </div>
+
+    </div><!-- /wrap -->
+  </section>
+
   <footer>
     <div class="wrap">
-      <p>Made with ❤️ for <span>Paolo &amp; Brooke</span> · National Parks 2026</p>
+      <p>The Great Escape &nbsp;·&nbsp; <span>Paolo &amp; Brooke</span> &nbsp;·&nbsp; 2026</p>
     </div>
   </footer>
 
   <script>
-    // COUNTDOWN
-    var trip1 = new Date('2026-04-10T14:00:00');
+    // ── THEME SWITCHER ──────────────────────────────────────
+    const pickerBtns = document.querySelectorAll('.style-picker-btn');
 
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      pickerBtns.forEach(b => b.classList.toggle('active', b.dataset.themeBtn === theme));
+      localStorage.setItem('parks-theme-v2', theme);
+    }
+
+    pickerBtns.forEach(btn => btn.addEventListener('click', () => setTheme(btn.dataset.themeBtn)));
+
+    const savedTheme = localStorage.getItem('parks-theme-v2');
+    if (savedTheme) setTheme(savedTheme);
+
+    // ── COUNTDOWN ──────────────────────────────────────────
     function updateCountdown() {
-      var now = new Date();
-      var diff = trip1 - now;
+      const target = new Date('2026-04-10T00:00:00');
+      const diff = target - new Date();
       if (diff <= 0) {
-        ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(function(id) {
+        ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => {
           document.getElementById(id).textContent = '00';
         });
         return;
       }
-      var days  = Math.floor(diff / 86400000);
-      var hours = Math.floor((diff % 86400000) / 3600000);
-      var mins  = Math.floor((diff % 3600000) / 60000);
-      var secs  = Math.floor((diff % 60000) / 1000);
-      document.getElementById('cd-days').textContent  = String(days).padStart(2, '0');
-      document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
-      document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
-      document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+      document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+      document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
     }
-
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // DAYS AWAY BADGES
-    var tripDates = [
-      { id: 'badge-zion',        date: new Date('2026-04-10') },
-      { id: 'badge-yosemite',    date: new Date('2026-05-08') },
-      { id: 'badge-canyon',      date: new Date('2026-05-29') },
-      { id: 'badge-yellowstone', date: new Date('2026-07-10') },
-    ];
+    // ── DAYS AWAY BADGES ──────────────────────────────────
+    function daysUntil(dateStr) {
+      const diff = Math.ceil((new Date(dateStr) - new Date()) / 86400000);
+      if (diff < 0)  return 'Past';
+      if (diff === 0) return 'Today!';
+      return diff + 'd away';
+    }
+    document.getElementById('badge-zion').textContent        = daysUntil('2026-04-10');
+    document.getElementById('badge-yosemite').textContent    = daysUntil('2026-05-08');
+    document.getElementById('badge-canyon').textContent      = daysUntil('2026-05-29');
+    document.getElementById('badge-yellowstone').textContent = daysUntil('2026-07-10');
 
-    (function() {
-      var today = new Date();
-      today.setHours(0,0,0,0);
-      tripDates.forEach(function(t) {
-        var el = document.getElementById(t.id);
-        if (!el) return;
-        var days = Math.ceil((t.date - today) / 86400000);
-        if (days > 0)       el.textContent = days + ' days away';
-        else if (days === 0) el.textContent = 'Today!';
-        else                 el.textContent = 'Done ✓';
-      });
-    })();
-
-    // ITINERARY TOGGLE
+    // ── ITINERARY TOGGLE ──────────────────────────────────
     function toggleItinerary(btn) {
-      btn.classList.toggle('open');
-      btn.nextElementSibling.classList.toggle('open');
+      const body = btn.nextElementSibling;
+      const icon = btn.querySelector('.toggle-icon');
+      const isOpen = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      icon.style.transform = isOpen ? '' : 'rotate(180deg)';
     }
 
-    // CHECKBOX PERSISTENCE
+    // ── CHECKBOX PERSISTENCE ─────────────────────────────
     function saveCheck(input) {
-      var id = input.getAttribute('data-id');
-      if (id) localStorage.setItem('check_' + id, input.checked ? '1' : '0');
+      localStorage.setItem(input.dataset.id, input.checked ? '1' : '0');
     }
-
     function loadChecks() {
-      document.querySelectorAll('input[type="checkbox"][data-id]').forEach(function(cb) {
-        if (localStorage.getItem('check_' + cb.getAttribute('data-id')) === '1') {
-          cb.checked = true;
-        }
+      document.querySelectorAll('input[data-id]').forEach(input => {
+        if (localStorage.getItem(input.dataset.id) === '1') input.checked = true;
       });
     }
 
-    // PROGRESS BAR
-    var BOOKING_IDS = ['b-angels','b-yos-res','b-valley-lodge','b-old-faithful','b-flights','b-gc-lodge','b-eltovar','b-zion-hotel'];
+    // ── CARD COUNTERS ─────────────────────────────────────
+    const cardCfg = {
+      zion:        { ids: ['card-zion-angels','card-zion-hotel'],                          total: 4 },
+      yosemite:    { ids: ['card-yos-reservation','card-yos-lodge','card-yos-halfdome'],   total: 4 },
+      canyon:      { ids: ['card-gc-eltovar','card-gc-lodge'],                             total: 3 },
+      yellowstone: { ids: ['card-ys-inn','card-ys-flights','card-ys-rental'],              total: 5 }
+    };
 
-    function updateProgress() {
-      var done = BOOKING_IDS.filter(function(id) {
-        var cb = document.querySelector('[data-id="' + id + '"]');
-        return cb && cb.checked;
+    function updateCardCounter(park) {
+      const cfg = cardCfg[park];
+      const checked = cfg.ids.filter(id => {
+        const el = document.querySelector(`[data-id="${id}"]`);
+        return el && el.checked;
       }).length;
-      var total = BOOKING_IDS.length;
-      document.getElementById('progress-count').textContent = done + ' of ' + total + ' booked';
-      document.getElementById('progress-fill').style.width = Math.round((done / total) * 100) + '%';
-    }
-
-    // CARD COUNTERS
-    function updateCardCounter(tripId) {
-      var counter = document.getElementById('counter-' + tripId);
-      if (!counter) return;
-      var container = counter.closest('.card-checklist');
-      var allItems = container.querySelectorAll('input[type="checkbox"]');
-      var total = allItems.length;
-      var checked = 0;
-      allItems.forEach(function(cb) { if (cb.checked) checked++; });
-      counter.textContent = checked + '/' + total + ' booked';
+      const passCount = cfg.total - cfg.ids.length;
+      document.getElementById('counter-' + park).textContent =
+        (checked + passCount) + '/' + cfg.total + ' booked';
     }
 
     loadChecks();
-    updateProgress();
-    ['zion','yosemite','canyon','yellowstone'].forEach(updateCardCounter);
+    Object.keys(cardCfg).forEach(updateCardCounter);
   </script>
+
 </body>
 </html>
